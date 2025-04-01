@@ -13,11 +13,10 @@ const userSchema= new mongoose.Schema({
     type:String,
     required:true,
     minLength:[8,"Password must have 8 characters"],
-    maxLength:[20,"Password must have 20 characters"],
   },
   role:{
     type:String,
-    enum:["admin","student","teacher","staff","parent"],
+    enum:["admin","student","teacher","parent"],
   },
   
 },{timestamps:true})

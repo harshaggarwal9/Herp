@@ -1,0 +1,3 @@
+authMiddleware,roleMiddleware(["teacher","admin"]),
+authMiddleware,roleMiddleware(["teacher","admin"])
+aman1234

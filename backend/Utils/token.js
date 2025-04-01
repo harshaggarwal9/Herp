@@ -5,7 +5,7 @@ export const generateToken = (userId,role,res)=>{
       userId:userId,
       role:role,
 
-    },process.env.JWT_SEC)
+    },process.env.JWT_SEC, { expiresIn: '1d' });
     res.cookie("jwt",token)
     return token
   }
