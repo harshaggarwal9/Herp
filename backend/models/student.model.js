@@ -31,7 +31,7 @@ const studentSchema = new mongoose.Schema({
       message: "Stream is only allowed for students in class 11 and 12.",
     },
   },
-  parents: [{ type: mongoose.Schema.Types.ObjectId, ref: "Parent" }],
+  parent: { type: mongoose.Schema.Types.ObjectId, ref: "Parent" },
 },{timestamps:true})
 
 export default mongoose.model("Student", studentSchema);

@@ -11,6 +11,7 @@ const classSchema = new mongoose.Schema({
   },
   students: [{ type: mongoose.Schema.Types.ObjectId, ref: "Student" }],
   teachers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Teacher" }],
+  subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }],
 },{timestamps:true})
 
 export default mongoose.model("Class", classSchema);

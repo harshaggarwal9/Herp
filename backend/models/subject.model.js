@@ -2,17 +2,18 @@ import mongoose from "mongoose";
 const subjectSchema = new mongoose.Schema({
   name: { 
     type: String, 
-    required: true 
+    required: true ,
+    unique:true
   },
-  class: { 
+  classes: [{ 
     type: mongoose.Schema.Types.ObjectId, 
     ref: "Class", 
     required: true 
-  },
-  teacher: { 
+  }],
+  teacher: [{ 
     type: mongoose.Schema.Types.ObjectId, 
     ref: "Teacher" 
-  },
+  }],
 }, { timestamps: true });
 
 export default mongoose.model("Subject", subjectSchema);
