@@ -35,43 +35,90 @@ export const createSubject = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-export const assignSubject = async(req,res)=>{
-  const {id}=req.params;
-  const {subject}=req.body;
+export const assignSubjectClassesToTeacher = async (req, res) => {
+  const { id } = req.params; 
+  const { subject } = req.body; 
   try {
-    const user = await Teacher.findById(id);
-    if(!user) return res.status(404).json({message:"User not found"});
-    const subjects = await Subject.findOne({name:subject});
-    if(!subjects) return res.status(404).json({message:"Subject not found"});
-    if(user.subjects.includes(subjects.name)){
-      await Teacher.findByIdAndUpdate(
-        user._id,
-        {
-          $addToSet: {
-            classes: { $each: subjects.classes } // Add multiple classes, avoiding duplicates
-          }
-        },
-        { new: true }
-      );
-      await Promise.all(
-        subjects.classes.map(async (classId) => {
-          await classModel.findByIdAndUpdate(
-            classId,
-            { $addToSet: { teachers: user._id } },
-            { new: true }
-          );
-        })
-      );
-      await Subject.findByIdAndUpdate(
-        subjects._id,
-        {$addToSet: {teacher:user._id}}
-      )
-      res.json({message:"classes are assigned the teacher and teacher is assigned to the class"});
+    const teacherDoc = await Teacher.findById(id);
+    if (!teacherDoc)
+      return res.status(404).json({ message: "Teacher not found" });
+    if (!teacherDoc.subjects.includes(subject)) {
+      return res
+        .status(400)
+        .json({ message: "Teacher does not teach this subject" });
     }
-    else res.status(401).json({success:false,message:"this teacher doesn't teaches this subject"});
+    const subjectDoc = await Subject.findOne({ name: subject });
+    if (!subjectDoc)
+      return res.status(404).json({ message: "Subject not found" });
+    const subjectClasses = subjectDoc.classes; 
+    const otherTeachers = await Teacher.find({
+      subjects: subject,
+      _id: { $ne: teacherDoc._id }
+    });
+    let alreadyAssignedClasses = [];
+    otherTeachers.forEach(t => {
+      t.classes.forEach(c => {
+        if (
+          subjectClasses
+            .map(s => s.toString())
+            .includes(c.toString())
+        ) {
+          alreadyAssignedClasses.push(c.toString());
+        }
+      });
+    });
+    alreadyAssignedClasses = Array.from(new Set(alreadyAssignedClasses));
+    const availableSubjectClasses = subjectClasses.filter(
+      c => !alreadyAssignedClasses.includes(c.toString())
+    );
+    const teacherClassesForSubject = teacherDoc.classes.filter(c =>
+      subjectClasses.map(s => s.toString()).includes(c.toString())
+    );
+    const maxClassesPerSubject = 4;
+    const availableSlots = maxClassesPerSubject - teacherClassesForSubject.length;
+    if (availableSlots <= 0) {
+      return res.status(400).json({
+        message:
+          "Teacher already has the maximum number of classes assigned for this subject. Please assign this subject to another teacher."
+      });
+    }
+    const teacherCurrentClassIds = teacherDoc.classes.map(c => c.toString());
+    const newClasses = availableSubjectClasses.filter(
+      c => !teacherCurrentClassIds.includes(c.toString())
+    );
+    const classesToAdd = newClasses.slice(0, availableSlots);
 
+    if (classesToAdd.length === 0) {
+      return res.status(400).json({
+        message: "No new classes available for assignment for this subject."
+      });
+    }
+    const updatedTeacher = await Teacher.findByIdAndUpdate(
+      id,
+      { $addToSet: { classes: { $each: classesToAdd } } },
+      { new: true }
+    )
+    await Promise.all(
+      classesToAdd.map(classId =>
+        classModel.findByIdAndUpdate(
+          classId,
+          { $addToSet: { teachers: teacherDoc._id } },
+          { new: true }
+        )
+      )
+    );
+    await Subject.findByIdAndUpdate(
+      subjectDoc._id,
+      { $addToSet: { teachers: teacherDoc._id } },
+      { new: true }
+    );
+    return res.status(200).json({
+      message: "Subject classes assigned to teacher successfully",
+      teacher: updatedTeacher,
+      subject: subjectDoc
+    });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({message:"internal server error"});
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
