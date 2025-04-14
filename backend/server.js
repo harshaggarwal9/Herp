@@ -8,9 +8,17 @@ import classRoutes from "./routes/class.route.js"
 import parentRoutes from "./routes/parent.route.js"
 import teacherRoutes from "./routes/teacher.route.js"
 import subjectRoutes from "./routes/subject.route.js"
+import examRoutes from "./routes/exam.route.js"
+import resultRoutes from "./routes/result.route.js"
+import { createChallan } from "./controllers/fee.controller.js"
+import cors from "cors"
 dotenv.config()
 const app = express()
 app.use(express.json())
+app.use(cors({
+  origin: "http://localhost:5173", // ✅ No trailing slash
+  credentials: true               // ✅ If you're using cookies or tokens
+}));
 app.use(cookieParser())
 app.use("/api/auth",authRoutes)
 app.use("/api/student",studentRoutes)
@@ -18,6 +26,9 @@ app.use("/api/class",classRoutes)
 app.use("/api/parent",parentRoutes)
 app.use("/api/teacher",teacherRoutes)
 app.use("/api/subject",subjectRoutes)
+app.use("/api/exam",examRoutes)
+app.use("/api/result",resultRoutes)
+app.use("/api/fee",createChallan)
 app.listen(process.env.PORT,()=>{
   connectDB()
   console.log(`Server is running on port ${process.env.PORT}`)

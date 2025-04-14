@@ -7,7 +7,7 @@ export const createStudent = async (req,res)=>{
   const {RollNumber,className,section,phoneNumber}=req.body;
   try {
     const parent = await parentModel.findOne({phoneNumber});
-    if (!parent) res.status.json({message:"parent not exist first create parent"});
+    if (!parent) res.status(404).json({message:"parent not exist first create parent"});
     const classData= await classModel.findOne({className,section});
     if(!classData)  res.status.json({message:"class not exist first create class"});
     const user=await User.findById(id);
