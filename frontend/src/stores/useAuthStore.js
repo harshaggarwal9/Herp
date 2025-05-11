@@ -31,7 +31,7 @@ const useAuthStore = create((set) => ({
   signup: async (name, email, password, role) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.post('/api/auth/signup', {
+      const response = await axios.post('http://localhost:5000/api/auth/signup', {
         name,
         email,
         password,

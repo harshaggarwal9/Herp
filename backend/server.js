@@ -11,6 +11,7 @@ import subjectRoutes from "./routes/subject.route.js"
 import examRoutes from "./routes/exam.route.js"
 import resultRoutes from "./routes/result.route.js"
 import { createChallan } from "./controllers/fee.controller.js"
+import adminRoutes from "./routes/admin.route.js"
 import cors from "cors"
 dotenv.config()
 const app = express()
@@ -28,6 +29,7 @@ app.use("/api/teacher",teacherRoutes)
 app.use("/api/subject",subjectRoutes)
 app.use("/api/exam",examRoutes)
 app.use("/api/result",resultRoutes)
+app.use("/api/admin",adminRoutes)
 app.use("/api/fee",createChallan)
 app.listen(process.env.PORT,()=>{
   connectDB()
