@@ -2,6 +2,7 @@ import teacher from "../models/teacher.model.js"
 import User from "../models/userModel.js";
 export const createTeacher = async(req,res)=>{
   const {id}=req.params;
+  console.log(id);
   const {subjects,experience,qualifications}=req.body;
   try {
     const user = await User.findById(id);

@@ -1,61 +1,71 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/useAuthStore';
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const { login, loading } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(email, password);
+    const success = await login(email, password);
+    if (success) {
+      const user = useAuthStore.getState().user;
+      if (user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/'); 
+      }
+    }
   };
 
   return (
-    <div className="flex items-center justify-center h-full">
+    <div className="flex items-center justify-center min-h-screen bg-base-grey-200 px-4">
       <form
-        className="bg-white p-6 rounded-xl shadow-md w-96"
         onSubmit={handleSubmit}
+        className="card w-full max-w-lg shadow-2xl bg-base-100 p-12 space-y-8 rounded-lg"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center text-[#102E50]">
+        <h2 className="text-4xl font-extrabold text-center text-primary mb-4">
           Login
         </h2>
 
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium mb-1">
-            Email
+        <div className="form-control mb-6">
+          <label htmlFor="email" className="label mb-2">
+            <span className="label-text font-medium">Email</span>
           </label>
           <input
             type="email"
             id="email"
-            placeholder="Enter your email"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#102E50]"
+            placeholder="you@example.com"
+            className="input input-bordered w-full"
             required
             autoComplete="on"
-            onChange={(e) => setEmail(e.target.value)}
             value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
-        <div className="mb-6">
-          <label htmlFor="password" className="block text-sm font-medium mb-1">
-            Password
+        <div className="form-control mb-8">
+          <label htmlFor="password" className="label mb-2">
+            <span className="label-text font-medium">Password</span>
           </label>
           <input
             type="password"
             id="password"
-            placeholder="Enter your password"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#102E50]"
+            placeholder="••••••••"
+            className="input input-bordered w-full"
             required
             autoComplete="on"
-            onChange={(e) => setPassword(e.target.value)}
             value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
         <button
           type="submit"
-          className="w-full bg-[#102E50] text-white py-2 rounded-lg hover:bg-[#0a1f33] transition duration-300 disabled:opacity-50"
+          className="btn btn-primary btn-lg w-full"
           disabled={loading}
         >
           {loading ? 'Logging in...' : 'Login'}

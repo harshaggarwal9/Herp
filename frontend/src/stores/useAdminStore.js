@@ -11,17 +11,24 @@ const useAdminStore = create((set) => ({
   fees: [],
 
   // Actions
-  fetchPendingUsers: async () => {
-    const { data } = await axios.get('http://localhost:5000/api/admin/pending-users');
-    set({ pendingUsers: data });
+ fetchPendingUsers: async () => {
+  const { data } = await axios.get('http://localhost:5000/api/admin/pending-users');
+  const users = Array.isArray(data) ? data : data.users || [];
+  set({ pendingUsers: users });
   },
 
-  approveUser: async (id, approve) => {
-    await axios.post(`http://localhost:5000/api/admin/approve-user/${id}`, { approve });
-    set((state) => ({
-      pendingUsers: state.pendingUsers.filter((u) => u._id !== id),
-    }));
-  },
+
+ approveUser: async (id, action) => {
+  await axios.post('http://localhost:5000/api/admin/approve-user', {
+    userId: id,
+    action
+  });
+
+  set((state) => ({
+    pendingUsers: state.pendingUsers.filter((u) => u._id !== id),
+  }));
+},
+
 
   fetchTeachersAndClasses: async () => {
     const [teachersRes, classesRes] = await Promise.all([

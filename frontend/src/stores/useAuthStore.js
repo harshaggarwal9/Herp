@@ -8,24 +8,28 @@ const useAuthStore = create((set) => ({
   loading: false,
   error: null,
 
-  login: async (email, password) => {
-    set({ loading: true, error: null });
-    try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
-      const { token, user } = response.data;
-      set({ user, token, loading: false });
-      if (user && token) {
-        toast.success("Logged in successfully");
-      }
-      localStorage.setItem('token', token);
-    } catch (error) {
-      set({
-        error: error.response?.data?.message || 'Login failed',
-        loading: false,
-      });
-      toast.error(error.response?.data?.message || "Login failed");
+ login: async (email, password) => {
+  set({ loading: true, error: null });
+  try {
+    const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+    const { token, user } = response.data;
+    set({ user, token, loading: false });
+    localStorage.setItem('token', token);
+    if (user && token) {
+      toast.success("Logged in successfully");
+      return true; // ✅ return true on success
     }
-  },
+    return false;
+  } catch (error) {
+    set({
+      error: error.response?.data?.message || 'Login failed',
+      loading: false,
+    });
+    toast.error(error.response?.data?.message || "Login failed");
+    return false; // ✅ return false on failure
+  }
+},
+
 
   // ✅ Add comma here
   signup: async (name, email, password, role) => {
@@ -40,7 +44,7 @@ const useAuthStore = create((set) => ({
       const { token, user } = response.data;
       set({ user, token, loading: false });
       localStorage.setItem('token', token);
-      toast.success("Signup successful");
+      toast.success("Signup successful waiting for admin approval");
     } catch (error) {
       set({
         error: error.response?.data?.message || 'Signup failed',

@@ -5,6 +5,7 @@ export const getPendingUsers = async (req, res) => {
   try {
     const users = await User.find({ isApproved: false });
     res.status(200).json(users);
+    console.log(users);
   } catch (error) {
     console.error("Error fetching pending users:", error);
     res.status(500).json({ message: "Server error" });
