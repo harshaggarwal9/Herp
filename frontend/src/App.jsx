@@ -9,6 +9,7 @@ import AdminDashboard from './components/Admin/AdminDashboard';
 import Overview from './components/Admin/Overview';
 import UserApproval from './components/Admin/UserApproval';
 import useAuthStore from './stores/useAuthStore.js';
+import AssignTeacher from './components/Admin/assignteacher.jsx';
 // import TeacherAssignment from './components/Admin/TeacherAssignment';
 // import FeeManagement from './components/Admin/FeeManagement';
 // import Notifications from './components/Admin/Notifications';
@@ -29,6 +30,7 @@ const App = () => {
             <Route index element={<Navigate to="overview" replace />} />
             <Route path="overview" element={<Overview />} />
             <Route path="user-approval" element={<UserApproval />} />
+            <Route path="teacher-assignment" element={<AssignTeacher/>}/>
             </Route>
          </Route>
         </Routes>

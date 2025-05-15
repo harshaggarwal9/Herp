@@ -27,7 +27,7 @@ export default function UserApproval() {
     e.preventDefault();
     const { _id: id, role } = selected;
     let url, payload;
-
+    
     switch (role) {
       case "teacher":
         url = `http://localhost:5000/api/teacher/create/${id}`;
@@ -58,7 +58,9 @@ export default function UserApproval() {
     }
 
     // 1) Create the domain-specific record
-    await axios.post(url, payload);
+    await axios.post(url, payload,{
+      withCredentials : true
+    });
 
     // 2) Finally, mark the user approved in your admin store
     await approveUser(id, "approve");
