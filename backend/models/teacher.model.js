@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-// Define the validator function BEFORE schema
+// Validator to enforce maximum of 4 classes per teacher
 function arrayLimit(val) {
-  return val.length <= 4; // or 4 if that's your actual limit
+  return val.length <= 4;
 }
 
 const teacherSchema = new mongoose.Schema({
@@ -25,7 +25,11 @@ const teacherSchema = new mongoose.Schema({
         required: true,
       }
     ],
-    validate: [arrayLimit, '{PATH} exceeds the limit of 4']
+    default: [],
+    validate: {
+      validator: arrayLimit,
+      message: 'A teacher cannot be assigned more than 4 classes',
+    }
   },
   experience: {
     type: Number,

@@ -53,11 +53,13 @@ export const assignTeacher = async (req, res) => {
       return res.status(404).json({ message: "Subject not found" });
 
     // 2️⃣ Rule 1: Max 6 classes total
-    if (teacher.classes.length >= 6) {
-      return res.status(400).json({
-        message: "Teacher already has 6 classes assigned"
-      });
+    // 2️⃣ Rule 1: Max 4 classes total
+    if (teacher.classes.length >= 4) {
+        return res.status(400).json({
+          message: "Teacher already has 4 classes assigned"
+        });
     }
+
 
     // 3️⃣ Rule 2: Subject must be in teacher’s interests
     if (!teacher.subjects.includes(subject)) {
@@ -85,7 +87,7 @@ export const assignTeacher = async (req, res) => {
     classDoc.subjectTeachers.push({ subject, teacher: teacher._id });
 
     // Add teacher to subject’s teacher list
-    subjectDoc.teachers.addToSet(teacher._id);
+    subjectDoc.teacher.addToSet(teacher._id);
 
     // Save all three docs
     await Promise.all([

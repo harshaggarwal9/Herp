@@ -8,6 +8,8 @@ const tabs = [
   { label: "Teacher Assignment", path: "teacher-assignment" },
   { label: "Fee Management", path: "fee-management" },
   { label: "Notifications", path: "notifications" },
+  { label: "Add Subject",path:"add-subject"},
+  { label: "Add Class",path:"add-class"},
 ];
 
 const AdminDashboard = () => {

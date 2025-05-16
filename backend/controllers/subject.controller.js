@@ -1,6 +1,5 @@
 import Subject from "../models/subject.model.js";
 import classModel from "../models/class.model.js";
-import Teacher from "../models/teacher.model.js";
 export const createSubject = async (req, res) => {
   const { name, classes } = req.body;
 
