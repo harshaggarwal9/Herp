@@ -52,19 +52,3 @@ export const deleteClass = async(req,res)=>{
     console.log(error);
   }
 }
-// export const assignClass = async(req,res)=>{
-//   const {id}=req.params;
-//   const {className,section} = req.body;
-//   try {
-//     const user = await Teacher.findById(id);
-//     if(!user) res.status(404).json({success:false,message : "teacher not found"});
-//     const classId = await classModel.findOne({className,section});
-//     if(!classId) res.status(404).json({success:false,message : "class not created"})
-//     const assignedTeacher  = await classModel.findByIdAndUpdate(classId._id,{$push:{teachers:user._id}},{new:true});
-//     const assignedClass = await Teacher.findByIdAndUpdate(user._id,{$push:{classes:classId._id}},{new : true});
-//     res.status(200).json({success:true,message:"teacher assigned to class"});
-//   } catch (error) {
-//     res.status(500).json({success:false,message:"internal server error"});
-//     console.log(error);
-//   }
-// }

@@ -21,19 +21,24 @@ export const createTeacher = async(req,res)=>{
     console.log(error);
   }
 }
-export const fetchTeacher = async(req,res)=>{
-  const {id}=req.params;
+export const fetchTeacher = async (req, res) => {
+  const { userId } = req.params;            // ← rename “id” to “userId”
   try {
-    const user = await Teacher.findById(id).populate(
-      {path:"userId"}
-    )
-    if (!user) return res.status(404).json({ message: "Teacher not found"})
-    res.json(user);
+    // find the ONE teacher doc whose userId field equals the logged-in user's id
+  const teacher = await Teacher
+      .findOne({ userId })
+      .populate("userId")               // if you need any user fields
+      .populate("classes")       // <-- bring in className & section
+    if (!teacher) {
+      return res.status(404).json({ message: "Teacher not found for this user" });
+    }
+    res.json(teacher);
   } catch (error) {
-    res.status(500).json({success:false,message:"internal server error"});
-    console.log(error);
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
-}
+};
+
 export const assignTeacher = async (req, res) => {
   const { id: teacherId } = req.params;
   const { classId, subject } = req.body;

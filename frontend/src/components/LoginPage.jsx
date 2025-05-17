@@ -15,8 +15,11 @@ const LoginPage = () => {
       const user = useAuthStore.getState().user;
       if (user.role === 'admin') {
         navigate('/admin');
-      } else {
-        navigate('/'); 
+      } else if(user.role === 'teacher'){
+        navigate('/teacher'); 
+      }
+      else {
+        navigate('/');
       }
     }
   };
