@@ -1,3 +1,4 @@
+// Frontend: CreateExamForm.jsx
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useAuthStore from "../../stores/useAuthStore";
@@ -12,23 +13,17 @@ export default function CreateExamForm() {
     name: "",
     date: "",
     marks: "",
-    subjects: [],
+    subject: "",
     classes: []
   });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
 
-  // Fetch teacher (with populated classes) on mount
+  // Fetch teacher with populated classes and subjects
   useEffect(() => {
     if (!userId) return;
     axios.get(`http://localhost:5000/api/teacher/fetch/${userId}`)
-      .then(res => {
-        const t = res.data;
-        setTeacher(t);
-        const subjects = t.subjects || [];
-        const classes = (t.classes || []).map(c => `${c.className} ${c.section}`);
-        setFormData(prev => ({ ...prev, subjects: [], classes }));
-      })
+      .then(res => setTeacher(res.data))
       .catch(err => console.error("Error loading teacher:", err))
       .finally(() => setLoadingTeacher(false));
   }, [userId]);
@@ -38,23 +33,24 @@ export default function CreateExamForm() {
       <span className="loading loading-spinner loading-lg"></span>
     </div>
   );
+
   if (!teacher) return <p className="text-center text-red-500">Unable to load teacher data.</p>;
 
-  // Options for subjects come from teacher
-  const subjectOptions = teacher.subjects || [];
-  const classOptions = (teacher.classes || []).map(c => `${c.className} ${c.section}`);
+  // Prepare subject and class options
+  const subjectOptions = teacher.subjects || []; // array of string subjects
+  const classOptions = teacher.classes || [];    // array of { _id, className, section }
 
   const handleInputChange = e => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleMultiChange = (name, value) => {
+  const handleMultiChange = classId => {
     setFormData(prev => {
-      const arr = new Set(prev[name]);
-      if (arr.has(value)) arr.delete(value);
-      else arr.add(value);
-      return { ...prev, [name]: Array.from(arr) };
+      const setVals = new Set(prev.classes);
+      if (setVals.has(classId)) setVals.delete(classId);
+      else setVals.add(classId);
+      return { ...prev, classes: Array.from(setVals) };
     });
   };
 
@@ -67,13 +63,11 @@ export default function CreateExamForm() {
         name: formData.name,
         date: formData.date,
         marks: Number(formData.marks),
-        // send a single subject name (the first selected)
-        subject: formData.subjects[0],
-        // send all selected classes
-        className: formData.classes
+        subject: formData.subject,   // sending subject name string
+        classes: formData.classes    // sending class IDs
       });
       setMessage({ type: "success", text: "Exam created successfully!" });
-      setFormData(prev => ({ ...prev, name: "", date: "", marks: "", subjects: subjectOptions, classes: [] }));
+      setFormData({ name: "", date: "", marks: "", subject: "", classes: [] });
     } catch (err) {
       console.error(err);
       setMessage({ type: "error", text: err.response?.data?.message || "Error creating exam" });
@@ -95,6 +89,7 @@ export default function CreateExamForm() {
           )}
 
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
+            {/* Exam Name */}
             <div className="form-control">
               <label className="label"><span className="label-text">Exam Name</span></label>
               <input
@@ -108,6 +103,7 @@ export default function CreateExamForm() {
               />
             </div>
 
+            {/* Date & Marks */}
             <div className="grid grid-cols-2 gap-4">
               <div className="form-control">
                 <label className="label"><span className="label-text">Date</span></label>
@@ -134,42 +130,42 @@ export default function CreateExamForm() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="form-control">
-                <label className="label"><span className="label-text">Subjects</span></label>
-                <div className="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto border rounded p-2">
-                  {subjectOptions.map(sub => (
-                    <label key={sub} className="cursor-pointer flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={formData.subjects.includes(sub)}
-                        onChange={() => handleMultiChange("subjects", sub)}
-                        className="checkbox checkbox-primary mr-2"
-                      />
-                      <span>{sub}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
+            {/* Subject */}
+            <div className="form-control">
+              <label className="label"><span className="label-text">Subject</span></label>
+              <select
+                name="subject"
+                value={formData.subject}
+                onChange={handleInputChange}
+                className="select select-bordered"
+                required
+              >
+                <option value="" disabled>Select subject</option>
+                {subjectOptions.map(sub => (
+                  <option key={sub} value={sub}>{sub}</option> // use string subject
+                ))}
+              </select>
+            </div>
 
-              <div className="form-control">
-                <label className="label"><span className="label-text">Classes</span></label>
-                <div className="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto border rounded p-2">
-                  {classOptions.map(cn => (
-                    <label key={cn} className="cursor-pointer flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={formData.classes.includes(cn)}
-                        onChange={() => handleMultiChange("classes", cn)}
-                        className="checkbox checkbox-secondary mr-2"
-                      />
-                      <span>{cn}</span>
-                    </label>
-                  ))}
-                </div>
+            {/* Classes */}
+            <div className="form-control">
+              <label className="label"><span className="label-text">Classes</span></label>
+              <div className="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto border rounded p-2">
+                {classOptions.map(c => (
+                  <label key={c._id} className="cursor-pointer flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={formData.classes.includes(c._id)}
+                      onChange={() => handleMultiChange(c._id)}
+                      className="checkbox checkbox-secondary mr-2"
+                    />
+                    <span>{`${c.className} ${c.section}`}</span>
+                  </label>
+                ))}
               </div>
             </div>
 
+            {/* Submit */}
             <div className="form-control mt-4">
               <button
                 type="submit"

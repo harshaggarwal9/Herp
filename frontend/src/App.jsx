@@ -15,6 +15,7 @@ import AddClass from './components/Admin/AddClass.jsx';
 import TeacherDashboard from './components/Teacher/TeacherDashboard.jsx';
 import Profile from './components/Teacher/Profile.jsx';
 import CreateExamForm from './components/Teacher/CreateExam.jsx';
+import CreateResultForm from './components/Teacher/CreateResult.jsx';
 
 const App = () => {
   const {user} = useAuthStore();
@@ -42,6 +43,7 @@ const App = () => {
             <Route index element={<Navigate to="profile" replace />} />
             <Route path="profile" element={<Profile />} />
             <Route path="create-exam" element={<CreateExamForm/>}/>
+            <Route path="create-result" element={<CreateResultForm/>}/>
           </Route>
           </Route>
         </Routes>
