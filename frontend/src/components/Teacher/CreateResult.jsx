@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useAuthStore from "../../stores/useAuthStore";
-
+import { Toaster, toast } from "react-hot-toast";
 export default function CreateResultForm() {
   const { user } = useAuthStore();
   const userId = user?._id;
@@ -32,25 +32,31 @@ export default function CreateResultForm() {
 
   const fetchExam = async () => {
     if (!examName || !selectedSubject || !selectedClass?.className || !selectedClass?.section) {
-      alert("Please fill out all fields before fetching the exam.");
+      toast.error("Please fill out all fields before fetching the exam.");
       return;
     }
     setExamLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/exam/fetchExam", {
-        params: {
+      const res = await axios.post(
+        "http://localhost:5000/api/exam/fetchExam",
+        {
           name: examName,
           subject: selectedSubject,
           className: selectedClass.className,
           section: selectedClass.section
         }
-      });
-      setExam(res.data.exam);
-      alert("Exam fetched successfully!");
+      );
+      if (res.data.success) {
+        setExam(res.data.exam);
+        toast.success("Exam fetched successfully!");
+      } else {
+        setExam(null);
+        toast.error(res.data.message || "Failed to fetch exam");
+      }
     } catch (err) {
       console.error(err);
       setExam(null);
-      alert(err.response?.data?.message || "Failed to fetch exam");
+      toast.error(err.response?.data?.message || "Failed to fetch exam");
     } finally {
       setExamLoading(false);
     }
@@ -69,13 +75,12 @@ export default function CreateResultForm() {
     };
 
     if (!newResult.rollNumber || isNaN(newResult.marks)) {
-      alert("Please enter valid roll number and marks.");
+      toast.error("Please enter valid roll number and marks.");
       return;
     }
 
-    const duplicate = results.find(r => r.rollNumber === newResult.rollNumber);
-    if (duplicate) {
-      alert("Roll number already added.");
+    if (results.find(r => r.rollNumber === newResult.rollNumber)) {
+      toast.error("Roll number already added.");
       return;
     }
 
@@ -90,21 +95,30 @@ export default function CreateResultForm() {
   const handleSaveAll = async () => {
     if (!exam) return;
     if (results.length === 0) {
-      alert("No results to save.");
+      toast.error("No results to save.");
       return;
     }
 
     setSubmitting(true);
     try {
-      await axios.post(`http://localhost:5000/api/result/create-many/${exam._id}`, {
-        subject: selectedSubject,
-        results
-      });
-      alert("All results saved successfully!");
+      // Send individual POST requests matching backend signature
+      await Promise.all(
+        results.map(r =>
+          axios.post(
+            `http://localhost:5000/api/result/create/${exam._id}`,
+            {
+              rollNumber: r.rollNumber,
+              marks: r.marks,
+              subjects: selectedSubject
+            }
+          )
+        )
+      );
+      toast.error("All results saved successfully!");
       setResults([]);
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.message || "Failed to save results.");
+      toast.error(err.response?.data?.message || "Failed to save results.");
     } finally {
       setSubmitting(false);
     }
@@ -162,7 +176,7 @@ export default function CreateResultForm() {
               >
                 <option disabled value="">Select class</option>
                 {teacherClasses.map(cls => (
-                  <option key={`${cls.className}-${cls.section}`} value={`${cls.className}-${cls.section}`}>
+                  <option key={`${cls.className}-${cls.section}`} value={`${cls.className}-${cls.section}`}> 
                     {cls.className} - {cls.section}
                   </option>
                 ))}

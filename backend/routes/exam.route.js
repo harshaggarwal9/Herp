@@ -6,5 +6,5 @@ const router = express.Router();
 router.post("/create",authMiddleware,roleMiddleware(["admin","teacher"]),createExam);
 router.get("/fetch/class/:id",authMiddleware,roleMiddleware(["admin","teacher"]),findExambyclass);
 router.get("/fetch/subject/:id",authMiddleware,roleMiddleware(["admin","teacher"]),findExambySubject);
-router.get("/fetchExam",authMiddleware,roleMiddleware(["admin","teacher"]),fetchExam);
+router.post("/fetchExam",authMiddleware,roleMiddleware(["admin","teacher"]),fetchExam);
 export default router

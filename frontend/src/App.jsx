@@ -16,6 +16,8 @@ import TeacherDashboard from './components/Teacher/TeacherDashboard.jsx';
 import Profile from './components/Teacher/Profile.jsx';
 import CreateExamForm from './components/Teacher/CreateExam.jsx';
 import CreateResultForm from './components/Teacher/CreateResult.jsx';
+import StudentDashboard from './components/Student/StudentDashboard.jsx';
+import ProfileSection from './components/Student/Profile.jsx';
 
 const App = () => {
   const {user} = useAuthStore();
@@ -45,6 +47,12 @@ const App = () => {
             <Route path="create-exam" element={<CreateExamForm/>}/>
             <Route path="create-result" element={<CreateResultForm/>}/>
           </Route>
+          </Route>
+          <Route element={<ProtectedRoute allowedRole="student"/>}>
+            <Route path = "/student" element ={<StudentDashboard/>}> 
+            <Route index element={<Navigate to="profile" replace />} />
+            <Route path="profile" element={<ProfileSection />} />
+           </Route>
           </Route>
         </Routes>
       </BrowserRouter>
