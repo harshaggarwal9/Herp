@@ -18,7 +18,10 @@ import CreateExamForm from './components/Teacher/CreateExam.jsx';
 import CreateResultForm from './components/Teacher/CreateResult.jsx';
 import StudentDashboard from './components/Student/StudentDashboard.jsx';
 import ProfileSection from './components/Student/Profile.jsx';
-
+import ParentDashboard from './components/parents/parentDashboard.jsx';
+import ProfileSectionParent from './components/parents/profile.jsx';
+import FeeManagement from './components/Admin/Feemanagement.jsx';
+import FeePayment from './components/parents/Fees.jsx';
 const App = () => {
   const {user} = useAuthStore();
   return (
@@ -38,6 +41,7 @@ const App = () => {
             <Route path="teacher-assignment" element={<AssignTeacher/>}/>
             <Route path="add-subject" element={<AddSubject/>}/>
             <Route path="add-class" element={<AddClass/>}/>
+            <Route path="fee-management" element={<FeeManagement/>}/>
           </Route>
           </Route>
           <Route element={<ProtectedRoute allowedRole="teacher" />}>
@@ -53,6 +57,13 @@ const App = () => {
             <Route index element={<Navigate to="profile" replace />} />
             <Route path="profile" element={<ProfileSection />} />
            </Route>
+          </Route>
+          <Route element={<ProtectedRoute allowedRole="parent"/>}>
+          <Route path="/parent" element={<ParentDashboard/>}>
+          <Route index element={<Navigate to = "profile" replace />}/>
+          <Route path="profile" element={<ProfileSectionParent/>}/>
+          <Route path="fee-payment" element={<FeePayment/>}/>
+          </Route>
           </Route>
         </Routes>
       </BrowserRouter>

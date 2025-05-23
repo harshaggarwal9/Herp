@@ -3,16 +3,18 @@ import Fee from "../models/fees.model.js";
 import studentModel from "../models/student.model.js";
 import crypto from "crypto";
 export const createChallan = async(req,res)=>{
-  const {id} = req.params;
-  const {amount,dueDate} = req.body;
+  const {amount,dueDate, RollNumber} = req.body;
   try {
-    const student = await studentModel.findById(id);
+    const student = await studentModel.findOne({ RollNumber});
+     if (!student) {
+      return res.status(404).json({ success: false, message: "Student not found" });
+    }
     const fee=await Fee.create({
-      student,
+      student:student._id,
       amount,
       dueDate,
     })
-    res.json(Fee);
+    res.json(fee);
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "internal server errror" });
@@ -83,12 +85,35 @@ export const verifyPayment = async(req, res) => {
   }
 
 };
-export const checkfeestatus=async(req,res)=>{
+// export const checkfeestatus=async(req,res)=>{
+//   const {id} = req.params;
+//   try {
+//     const student = await studentModel.findById(id);
+//     const fee = await Fee.findOne({student:student._id});
+//     res.status(200).json(fee);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ success: false, message: "internal server errror" });
+//   }
+// }
+export const fetchAll = async(req,res)=>{
+  try {
+    const PendingUser = await Fee.find({status:"Pending"}).populate(
+      {
+        path: "student",
+      },
+    );
+    res.status(200).json(PendingUser);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "internal server errror" });
+  }
+}
+export const deleteChallan = async(req,res)=>{
   const {id} = req.params;
   try {
-    const student = await studentModel.findById(id);
-    const fee = await feeModel.findOne({student:student._id});
-    res.status(200).json(fee);
+    const remainingChallan = await Fee.findByIdAndDelete(id);
+    res.status(200).json({ message: "Challan deleted successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "internal server errror" });

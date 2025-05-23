@@ -21,6 +21,9 @@ const LoginPage = () => {
       else if(user.role === 'student'){
         navigate('/student');
       }
+      else if(user.role === 'parent'){
+        navigate('/parent');
+      }
       else {
         navigate('/');
       }
