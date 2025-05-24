@@ -15,7 +15,8 @@ import cors from "cors"
 import bodyParser from 'body-parser';
 import webhookRoutes from './routes/webhook.routes.js';
 import feeRoutes from './routes/fee.route.js';
-dotenv.config()
+import path from "path"
+dotenv.config();
 const app = express()
 app.use(express.json())
 app.use(cors({
@@ -39,6 +40,10 @@ app.use("/api/result",resultRoutes)
 app.use("/api/admin",adminRoutes)
 app.use('/api/fees', feeRoutes);
 app.use('/webhooks/razorpay', webhookRoutes);
+// app.use(express.static(path.join(_dirname,"/frontend/dist")))
+// app.get("*",(req,res)=>{
+//   res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))
+// })
 app.listen(process.env.PORT,()=>{
   connectDB()
   console.log(`Server is running on port ${process.env.PORT}`)

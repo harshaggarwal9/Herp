@@ -23,7 +23,9 @@ import ProfileSectionParent from './components/parents/profile.jsx';
 import FeeManagement from './components/Admin/Feemanagement.jsx';
 import FeePayment from './components/parents/Fees.jsx';
 const App = () => {
+
   const {user} = useAuthStore();
+
   return (
     <div className="bg-[#102E50] h-screen">
       <Toaster />

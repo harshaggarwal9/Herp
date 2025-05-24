@@ -1,6 +1,5 @@
 import feesModel from "../models/fees.model.js";
 import Parent from "../models/parent.model.js";
-import studentModel from "../models/student.model.js";
 import User from "../models/userModel.js";
 export const createParent = async (req, res) => {
   const { id } = req.params;
@@ -50,14 +49,12 @@ export const fetchParentPendingFees = async (req, res) => {
   try {
     // 1) Assuming you have JWT auth that populates req.user._id
     const parentId = req.user._id;
-
     // 2) Load parent and their children array
-    const parent = await Parent.findById(parentId);
-    console.log(parent);
+    const parent = await Parent.findOne({userId:parentId});
     if (!parent) {
       return res.status(404).json({ success: false, message: "Parent not found" });
     }
-
+    console.log(parent.childrens);
     // 3) Find all fees for those student IDs that are still pending
     const pendingFees = await feesModel.find({
       student: { $in: parent.childrens },
