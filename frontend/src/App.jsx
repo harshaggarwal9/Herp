@@ -8,7 +8,7 @@ import AdminDashboard from './components/Admin/AdminDashboard';
 import Overview from './components/Admin/Overview';
 import UserApproval from './components/Admin/UserApproval';
 import useAuthStore from './stores/useAuthStore.js';
-import AssignTeacher from './components/Admin/assignteacher.jsx';
+import AssignTeacher from './components/Admin/AssignTeacher.jsx';
 import AddSubject from './components/Admin/AddSubject.jsx';
 import AddClass from './components/Admin/AddClass.jsx';
 import TeacherDashboard from './components/Teacher/TeacherDashboard.jsx';
@@ -18,7 +18,7 @@ import CreateResultForm from './components/Teacher/CreateResult.jsx';
 import StudentDashboard from './components/Student/StudentDashboard.jsx';
 import ProfileSection from './components/Student/Profile.jsx';
 import ParentDashboard from './components/parents/parentDashboard.jsx';
-import ProfileSectionParent from './components/parents/profile.jsx';
+import ProfileSectionParent from './components/parents/Profile.jsx';
 import FeeManagement from './components/Admin/Feemanagement.jsx';
 import FeePayment from './components/parents/Fees.jsx';
 const App = () => {
