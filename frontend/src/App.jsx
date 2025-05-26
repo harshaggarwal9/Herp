@@ -3,8 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
 import SignUp from './components/SignUp';
 import { Toaster } from 'react-hot-toast';
-import ProtectedRoute from './components/protectedRoute.jsx';
-// Admin dashboard components
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import Overview from './components/Admin/Overview';
 import UserApproval from './components/Admin/UserApproval';
