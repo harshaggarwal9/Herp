@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Check, X } from "lucide-react";
-import useAdminStore from "../../stores/useadminStore.js";
+import useAdminStore from "../../stores/useAdminStore.js";
 import axios from "axios";
 
 export default function UserApproval() {
