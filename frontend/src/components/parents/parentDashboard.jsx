@@ -5,7 +5,7 @@ import {
   FileText,
   Bell,
 } from "lucide-react";
-import ProfileSection from "./Profile";
+import ProfileSection from "./profile";
 import FeePayment from "./Fees";
 
 export default function ParentDashboard() {
