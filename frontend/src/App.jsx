@@ -18,7 +18,7 @@ import CreateResultForm from './components/Teacher/CreateResult.jsx';
 import StudentDashboard from './components/Student/StudentDashboard.jsx';
 import ProfileSection from './components/Student/Profile.jsx';
 import ParentDashboard from './components/parents/parentDashboard.jsx';
-import ProfileSectionParent from './components/parents/Profile.jsx';
+import { ParentProfileSection } from './components/parents/Profile.jsx';
 import FeeManagement from './components/Admin/Feemanagement.jsx';
 import FeePayment from './components/parents/Fees.jsx';
 const App = () => {
@@ -62,7 +62,7 @@ const App = () => {
           <Route element={<ProtectedRoute allowedRole="parent"/>}>
           <Route path="/parent" element={<ParentDashboard/>}>
           <Route index element={<Navigate to = "profile" replace />}/>
-          <Route path="profile" element={<ProfileSectionParent/>}/>
+          <Route path="profile" element={<ParentProfileSection/>}/>
           <Route path="fee-payment" element={<FeePayment/>}/>
           </Route>
           </Route>

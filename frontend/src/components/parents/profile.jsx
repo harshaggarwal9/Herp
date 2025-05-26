@@ -3,7 +3,7 @@ import axios from "axios";
 import useAuthStore from "../../stores/useAuthStore";
 import { User } from "lucide-react";
 
-function ParentProfileSection() {
+export const ParentProfileSection=()=> {
   const [profile, setProfile] = useState(null);
   const { user } = useAuthStore();
   const id = user?._id;
@@ -60,4 +60,3 @@ function ParentProfileSection() {
   );
 }
 
-export default ParentProfileSection;
