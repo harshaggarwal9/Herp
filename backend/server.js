@@ -40,10 +40,10 @@ app.use("/api/result",resultRoutes)
 app.use("/api/admin",adminRoutes)
 app.use('/api/fees', feeRoutes);
 app.use('/webhooks/razorpay', webhookRoutes);
-// app.use(express.static(path.join(_dirname,"/frontend/dist")))
-// app.get("*",(req,res)=>{
-//   res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))
-// })
+app.use(express.static(path.join(_dirname,"/frontend/dist")))
+app.get("*",(req,res)=>{
+  res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))
+})
 app.listen(process.env.PORT,()=>{
   connectDB()
   console.log(`Server is running on port ${process.env.PORT}`)

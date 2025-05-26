@@ -49,7 +49,7 @@ export const initiatePayment = async (req, res) => {
       currency: order.currency,
       student: fee.student,
       feeId: fee._id,
-      razorpayKey: process.env.RAZORPAY_KEY_ID,
+      razorpayKey:process.env.RAZORPAY_KEY_ID,
     });
 
   } catch (err) {
