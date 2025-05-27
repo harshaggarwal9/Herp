@@ -57,34 +57,50 @@ export const initiatePayment = async (req, res) => {
     res.status(500).json({ message: "Payment initiation failed" });
   }
 };
+import crypto from "crypto";
+import Fee from "../models/fee.js"; // adjust path if needed
+
 export const verifyPayment = async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, feeId } = req.body;
+
   const body = razorpay_order_id + "|" + razorpay_payment_id;
-  const expected = crypto
+
+  const expectedSignature = crypto
     .createHmac("sha256", process.env.RAZORPAY_SECRET)
     .update(body)
     .digest("hex");
-  console.log(expected);
-  if (expected !== razorpay_signature) {
+
+  console.log("Expected Signature:", expectedSignature);
+
+  if (expectedSignature !== razorpay_signature) {
     return res.status(400).json({ message: "Invalid signature" });
   }
-  const fee = await Fee.findById(feeId);
-  if (!fee) {
-    return res.status(404).json({ message: "Fee record not found" });
+
+  try {
+    const fee = await Fee.findById(feeId);
+    if (!fee) {
+      return res.status(404).json({ message: "Fee record not found" });
+    }
+
+    // Update status and paymentDetails
+    fee.status = "Paid";
+    fee.paymentDetails = {
+      orderId: razorpay_order_id,
+      paymentId: razorpay_payment_id,
+      signature: razorpay_signature,
+      amountPaid: fee.amount,
+      paymentDate: new Date(),
+      status: "Success"
+    };
+
+    await fee.save();
+
+    return res.status(200).json({ message: "Payment verified and fee updated" });
+  } catch (error) {
+    console.error("Payment verification error:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
-  fee.status = "Paid";
-  fee.paidAmount = fee.amount;             
-  fee.paymentHistory.push({
-    amountPaid: fee.amount,
-    date: new Date(),
-    method: "Razorpay",
-    paymentId: razorpay_payment_id
-  });
-  await fee.save();
-
-  res.status(200).json({ message: "Payment verified" });
 };
-
 // export const checkfeestatus=async(req,res)=>{
 //   const {id} = req.params;
 //   try {
