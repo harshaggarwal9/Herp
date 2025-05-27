@@ -4,7 +4,6 @@ import Subject from "../models/subject.model.js";
 import User from "../models/userModel.js";
 export const createTeacher = async(req,res)=>{
   const {id}=req.params;
-  console.log(id);
   const {subjects,experience,qualifications}=req.body;
   try {
     const user = await User.findById(id);
@@ -119,7 +118,6 @@ export const fetchAllTeachers = async (req, res) => {
     const teacherData = await Teacher
       .find({})
       .populate("userId", "name email");      // ← populate only name & email
-      console.log(teacherData);
     return res.status(200).json({
       success: true,
       message: "Teachers fetched successfully",

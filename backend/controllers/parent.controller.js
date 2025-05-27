@@ -54,7 +54,6 @@ export const fetchParentPendingFees = async (req, res) => {
     if (!parent) {
       return res.status(404).json({ success: false, message: "Parent not found" });
     }
-    console.log(parent.childrens);
     // 3) Find all fees for those student IDs that are still pending
     const pendingFees = await feesModel.find({
       student: { $in: parent.childrens },

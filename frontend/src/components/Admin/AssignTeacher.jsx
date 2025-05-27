@@ -22,7 +22,6 @@ export default function AssignTeacher() {
         ]);
         setTeachers(tRes.data.data);
         setClasses(cRes.data.data);
-        console.table(setTeachers,setClasses);
       } catch (err) {
         toast.error("Failed to load data");
         console.error(err);
