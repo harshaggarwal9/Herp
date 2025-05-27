@@ -57,34 +57,35 @@ export const initiatePayment = async (req, res) => {
     res.status(500).json({ message: "Payment initiation failed" });
   }
 };
-export const verifyPayment = async(req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature,feeId } = req.body;
+export const verifyPayment = async (req, res) => {
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, feeId } = req.body;
   const body = razorpay_order_id + "|" + razorpay_payment_id;
-
-  const expectedSignature = crypto
+  console.table(body,signature);
+  const expected = crypto
     .createHmac("sha256", process.env.RAZORPAY_SECRET)
-    .update(body.toString())
+    .update(body)
     .digest("hex");
-
-  if (expectedSignature === razorpay_signature) {
-    await Fee.findByIdAndUpdate(feeId, {
-      status: "Paid",
-      paidAmount: Fee.amount,
-      $push: {
-        paymentHistory: {
-          amountPaid: fee.amount,
-          date: new Date(),
-          method: "Razorpay"
-        }
-      }
-    });  
-    res.status(200).json({ message: "Payment verified" });
-    
-  } else {
-    res.status(400).json({ message: "Payment verification failed" });
+  console.log(expected);
+  if (expected !== razorpay_signature) {
+    return res.status(400).json({ message: "Invalid signature" });
   }
+  const fee = await Fee.findById(feeId);
+  if (!fee) {
+    return res.status(404).json({ message: "Fee record not found" });
+  }
+  fee.status = "Paid";
+  fee.paidAmount = fee.amount;             
+  fee.paymentHistory.push({
+    amountPaid: fee.amount,
+    date: new Date(),
+    method: "Razorpay",
+    paymentId: razorpay_payment_id
+  });
+  await fee.save();
 
+  res.status(200).json({ message: "Payment verified" });
 };
+
 // export const checkfeestatus=async(req,res)=>{
 //   const {id} = req.params;
 //   try {
