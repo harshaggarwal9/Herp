@@ -21,7 +21,7 @@ export default function CreateResultForm() {
   useEffect(() => {
     if (!userId) return;
     axios
-      .get(`http://localhost:5000/api/teacher/fetch/${userId}`)
+      .get(`https://mjerp.onrender.com/api/teacher/fetch/${userId}`)
       .then(res => {
         setTeacherSubjects(res.data.subjects || []);
         setTeacherClasses(res.data.classes || []);
@@ -38,7 +38,7 @@ export default function CreateResultForm() {
     setExamLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/exam/fetchExam",
+        "https://mjerp.onrender.com/api/exam/fetchExam",
         {
           name: examName,
           subject: selectedSubject,
@@ -105,7 +105,7 @@ export default function CreateResultForm() {
       await Promise.all(
         results.map(r =>
           axios.post(
-            `http://localhost:5000/api/result/create/${exam._id}`,
+            `https://mjerp.onrender.com/api/result/create/${exam._id}`,
             {
               rollNumber: r.rollNumber,
               marks: r.marks,

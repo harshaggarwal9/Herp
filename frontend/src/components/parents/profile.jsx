@@ -11,7 +11,7 @@ function ParentProfileSection() {
   useEffect(() => {
     if (!id) return;
     axios
-      .get(`http://localhost:5000/api/parent/fetch/${id}`)
+      .get(`https://mjerp.onrender.com/api/parent/fetch/${id}`)
       .then((res) => setProfile(res.data))
       .catch((err) => console.error(err));
   }, [id]);

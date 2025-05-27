@@ -12,14 +12,14 @@ const useAdminStore = create((set) => ({
 
   // Actions
  fetchPendingUsers: async () => {
-  const { data } = await axios.get('http://localhost:5000/api/admin/pending-users');
+  const { data } = await axios.get('https://mjerp.onrender.com/api/admin/pending-users');
   const users = Array.isArray(data) ? data : data.users || [];
   set({ pendingUsers: users });
   },
 
 
  approveUser: async (id, action) => {
-  await axios.post('http://localhost:5000/api/admin/approve-user', {
+  await axios.post('https://mjerp.onrender.com/api/admin/approve-user', {
     userId: id,
     action
   });

@@ -30,7 +30,7 @@ export default function UserApproval() {
     
     switch (role) {
       case "teacher":
-        url = `http://localhost:5000/api/teacher/create/${id}`;
+        url = `https://mjerp.onrender.com/api/teacher/create/${id}`;
         payload = {
           subjects: formData.subjects?.split(",").map(s => s.trim()),
           experience: formData.experience,
@@ -39,7 +39,7 @@ export default function UserApproval() {
         break;
 
       case "student":
-        url = `http://localhost:5000/api/student/create/${id}`;
+        url = `https://mjerp.onrender.com/api/student/create/${id}`;
         payload = {
           RollNumber: formData.RollNumber,
           className: formData.className,
@@ -49,7 +49,7 @@ export default function UserApproval() {
         break;
 
       case "parent":
-        url = `http://localhost:5000/api/parent/create/${id}`;
+        url = `https://mjerp.onrender.com/api/parent/create/${id}`;
         payload = { phone: formData.phone };
         break;
 

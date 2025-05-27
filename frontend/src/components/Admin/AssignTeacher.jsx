@@ -17,8 +17,8 @@ export default function AssignTeacher() {
     (async () => {
       try {
         const [tRes, cRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/teacher/fetch"), 
-          axios.get("http://localhost:5000/api/class/fetch")
+          axios.get("https://mjerp.onrender.com/api/teacher/fetch"), 
+          axios.get("https://mjerp.onrender.com/api/class/fetch")
         ]);
         setTeachers(tRes.data.data);
         setClasses(cRes.data.data);
@@ -38,7 +38,7 @@ export default function AssignTeacher() {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/teacher/assign/${selectedTeacher}`,
+        `https://mjerp.onrender.com/api/teacher/assign/${selectedTeacher}`,
         {
           classId: selectedClass,
           subject: selectedSubject,

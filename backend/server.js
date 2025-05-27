@@ -21,7 +21,7 @@ const _dirname=path.resolve();
 const app = express()
 app.use(express.json())
 app.use(cors({
-  origin: "http://localhost:5173", // ✅ No trailing slash
+  origin: "https://mjerp.onrender.com", // ✅ No trailing slash
   credentials: true               // ✅ If you're using cookies or tokens
 }));
 // app.use(

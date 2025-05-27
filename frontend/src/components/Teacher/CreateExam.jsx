@@ -22,7 +22,7 @@ export default function CreateExamForm() {
   // Fetch teacher with populated classes and subjects
   useEffect(() => {
     if (!userId) return;
-    axios.get(`http://localhost:5000/api/teacher/fetch/${userId}`)
+    axios.get(`https://mjerp.onrender.com/api/teacher/fetch/${userId}`)
       .then(res => setTeacher(res.data))
       .catch(err => console.error("Error loading teacher:", err))
       .finally(() => setLoadingTeacher(false));
@@ -59,7 +59,7 @@ export default function CreateExamForm() {
     setSubmitting(true);
     setMessage(null);
     try {
-      await axios.post("http://localhost:5000/api/exam/create", {
+      await axios.post("https://mjerp.onrender.com/api/exam/create", {
         name: formData.name,
         date: formData.date,
         marks: Number(formData.marks),

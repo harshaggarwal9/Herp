@@ -16,7 +16,7 @@ export default function CreateClass() {
     }
     setLoading(true);
     try {
-      await axios.post("http://localhost:5000/api/class/create", {
+      await axios.post("https://mjerp.onrender.com/api/class/create", {
         className: className.trim(),
         section: section.trim(),
       });

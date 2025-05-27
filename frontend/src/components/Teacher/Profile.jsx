@@ -12,7 +12,7 @@ export default function Profile() {
   useEffect(() => {
     if (!id) return;
     axios
-      .get(`http://localhost:5000/api/teacher/fetch/${id}`)
+      .get(`https://mjerp.onrender.com/api/teacher/fetch/${id}`)
       .then((res) => setProfile(res.data))
       .catch((err) => console.error("Error fetching profile:", err));
   }, [id]);

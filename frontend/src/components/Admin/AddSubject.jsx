@@ -13,7 +13,7 @@ export default function CreateSubject() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/class/fetch");
+        const res = await axios.get("https://mjerp.onrender.com/api/class/fetch");
         setAllClasses(res.data.data);
       } catch (err) {
         console.error(err);
@@ -35,7 +35,7 @@ export default function CreateSubject() {
 
     try {
       const payload = { name: name.trim(), classes: selectedClasses };
-      await axios.post("http://localhost:5000/api/subject/create", payload);
+      await axios.post("https://mjerp.onrender.com/api/subject/create", payload);
       toast.success("Subject created successfully!");
       setName("");
       setSelectedClasses([]);
