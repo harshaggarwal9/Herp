@@ -57,9 +57,6 @@ export const initiatePayment = async (req, res) => {
     res.status(500).json({ message: "Payment initiation failed" });
   }
 };
-import crypto from "crypto";
-import Fee from "../models/fee.js"; // adjust path if needed
-
 export const verifyPayment = async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, feeId } = req.body;
 
