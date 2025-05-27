@@ -60,7 +60,6 @@ export const initiatePayment = async (req, res) => {
 export const verifyPayment = async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, feeId } = req.body;
   const body = razorpay_order_id + "|" + razorpay_payment_id;
-  console.table(body,signature);
   const expected = crypto
     .createHmac("sha256", process.env.RAZORPAY_SECRET)
     .update(body)
