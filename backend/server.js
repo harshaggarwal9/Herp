@@ -13,20 +13,21 @@ import resultRoutes from "./routes/result.route.js"
 import adminRoutes from "./routes/admin.route.js"
 import cors from "cors"
 import bodyParser from 'body-parser';
-import webhookRoutes from './routes/webhook.routes.js';
+// import webhookRoutes from './routes/webhook.routes.js';
 import feeRoutes from './routes/fee.route.js';
 import path from "path"
 dotenv.config();
+const _dirname=path.resolve();
 const app = express()
 app.use(express.json())
 app.use(cors({
   origin: "http://localhost:5173", // ✅ No trailing slash
   credentials: true               // ✅ If you're using cookies or tokens
 }));
-app.use(
-  '/webhooks/razorpay',
-  bodyParser.raw({ type: 'application/json' })
-);
+// app.use(
+//   '/webhooks/razorpay',
+//   bodyParser.raw({ type: 'application/json' })
+// );
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 app.use("/api/auth",authRoutes)
@@ -39,7 +40,7 @@ app.use("/api/exam",examRoutes)
 app.use("/api/result",resultRoutes)
 app.use("/api/admin",adminRoutes)
 app.use('/api/fees', feeRoutes);
-app.use('/webhooks/razorpay', webhookRoutes);
+// app.use('/webhooks/razorpay', webhookRoutes);
 app.use(express.static(path.join(_dirname,"/frontend/dist")))
 app.get("*",(req,res)=>{
   res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))

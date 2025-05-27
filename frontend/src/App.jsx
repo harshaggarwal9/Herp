@@ -18,7 +18,7 @@ import CreateResultForm from './components/Teacher/CreateResult.jsx';
 import StudentDashboard from './components/Student/StudentDashboard.jsx';
 import ProfileSection from './components/Student/Profile.jsx';
 import ParentDashboard from './components/parents/parentDashboard.jsx';
-import { ParentProfileSection } from './components/parents/profile.jsx';
+import  ParentProfileSection from './components/parents/profile.jsx';
 import FeeManagement from './components/Admin/Feemanagement.jsx';
 import FeePayment from './components/parents/Fees.jsx';
 const App = () => {
