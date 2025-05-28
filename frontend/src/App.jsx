@@ -21,6 +21,8 @@ import ParentDashboard from './components/parents/parentDashboard.jsx';
 import  ParentProfileSection from './components/parents/profile.jsx';
 import FeeManagement from './components/Admin/Feemanagement.jsx';
 import FeePayment from './components/parents/Fees.jsx';
+import Notification from './components/Admin/createNotification.jsx'
+import GetNotifications from './components/getNotifcations.jsx';
 const App = () => {
 
   const {user} = useAuthStore();
@@ -43,6 +45,7 @@ const App = () => {
             <Route path="add-subject" element={<AddSubject/>}/>
             <Route path="add-class" element={<AddClass/>}/>
             <Route path="fee-management" element={<FeeManagement/>}/>
+            <Route path="notifications" element={<Notification/>}/>
           </Route>
           </Route>
           <Route element={<ProtectedRoute allowedRole="teacher" />}>
@@ -51,12 +54,14 @@ const App = () => {
             <Route path="profile" element={<Profile />} />
             <Route path="create-exam" element={<CreateExamForm/>}/>
             <Route path="create-result" element={<CreateResultForm/>}/>
+            <Route path="notifications" element={<GetNotifications/>}/>
           </Route>
           </Route>
           <Route element={<ProtectedRoute allowedRole="student"/>}>
             <Route path = "/student" element ={<StudentDashboard/>}> 
             <Route index element={<Navigate to="profile" replace />} />
             <Route path="profile" element={<ProfileSection />} />
+             <Route path="notifications" element={<GetNotifications/>}/>
            </Route>
           </Route>
           <Route element={<ProtectedRoute allowedRole="parent"/>}>
@@ -64,6 +69,7 @@ const App = () => {
           <Route index element={<Navigate to = "profile" replace />}/>
           <Route path="profile" element={<ParentProfileSection/>}/>
           <Route path="fee-payment" element={<FeePayment/>}/>
+          <Route path="notifications" element={<GetNotifications/>}/>
           </Route>
           </Route>
         </Routes>

@@ -16,9 +16,22 @@ import bodyParser from 'body-parser';
 import webhookRoutes from './routes/webhook.routes.js';
 import feeRoutes from './routes/fee.route.js';
 import path from "path"
+import http from "http"
+import {Server as SocketIOServer} from "socket.io"
+import noticationRoutes from "./routes/notification.route.js"
 dotenv.config();
 const _dirname=path.resolve();
 const app = express()
+const server = http.createServer(app);
+const io = new SocketIOServer(server, {
+  cors: {
+    origin: "https://mjerp.onrender.com",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
+app.set('io', io);
+
 app.use(express.json())
 app.use(cors({
   origin: "https://mjerp.onrender.com", 
@@ -42,10 +55,17 @@ app.use("/api/result",resultRoutes)
 app.use("/api/admin",adminRoutes)
 app.use('/api/fees', feeRoutes);
 app.use('/webhooks/razorpay', webhookRoutes);
+app.use('/api/notification',noticationRoutes);
 app.use(express.static(path.join(_dirname,"/frontend/dist")))
 app.get("*",(req,res)=>{
   res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))
 })
-app.listen(process.env.PORT,()=>{
+io.on('connection', (socket) => {
+  console.log(`Client connected: ${socket.id}`);
+  socket.on('disconnect', () => {
+  console.log(`Client disconnected: ${socket.id}`);
+  });
+});
+server.listen(process.env.PORT,()=>{
   connectDB()
 })
