@@ -3,9 +3,9 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
 const roleOptions = [
-  { label: 'Students', value: 'Student' },
-  { label: 'Parents', value: 'Parent' },
-  { label: 'Teachers', value: 'Teacher' }
+  { label: 'Students', value: 'student' },
+  { label: 'Parents', value: 'parent' },
+  { label: 'Teachers', value: 'teacher' }
 ];
 
 export default function CreateNotification() {
