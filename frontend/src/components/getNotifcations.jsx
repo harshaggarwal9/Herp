@@ -2,15 +2,23 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { Bell } from 'lucide-react';
+import { io } from 'socket.io-client';
+
+// Initialize socket
+const socket = io('https://mjerp.onrender.com', { withCredentials: true });
 
 export default function GetNotifications() {
   const [notifs, setNotifs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // 1. Fetch existing notifications
     const fetchNotifications = async () => {
       try {
-        const { data } = await axios.get('https://mjerp.onrender.com/api/notification/get', { withCredentials: true });
+        const { data } = await axios.get(
+          'https://mjerp.onrender.com/api/notification/get',
+          { withCredentials: true }
+        );
         setNotifs(data);
       } catch (err) {
         console.error(err);
@@ -20,6 +28,18 @@ export default function GetNotifications() {
       }
     };
     fetchNotifications();
+
+    // 2. Listen for real-time notifications
+    socket.on('notification', (newNotif) => {
+      setNotifs((prev) => [newNotif, ...prev]);
+      toast.success(`New notification: ${newNotif.title}`);
+    });
+
+    // Cleanup on unmount
+    return () => {
+      socket.off('notification');
+      socket.disconnect();
+    };
   }, []);
 
   if (loading) {
