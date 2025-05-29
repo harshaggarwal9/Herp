@@ -12,64 +12,71 @@ export default function GetNotifications() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Fetch existing notifications
-    const fetchNotifications = async () => {
+    // Fetch existing notifications
+    (async () => {
       try {
         const { data } = await axios.get(
           'https://mjerp.onrender.com/api/notification/get',
           { withCredentials: true }
         );
         setNotifs(data);
-      } catch (err) {
-        console.error(err);
+      } catch {
         toast.error('Failed to load notifications');
       } finally {
         setLoading(false);
       }
-    };
-    fetchNotifications();
+    })();
 
-    // 2. Listen for real-time notifications
+    // Listen for real-time notifications
     socket.on('notification', (newNotif) => {
       setNotifs((prev) => [newNotif, ...prev]);
-      toast.success(`New notification: ${newNotif.title}`);
+      toast.success(`New: ${newNotif.title}`);
     });
 
-    // Cleanup on unmount
+    // Cleanup
     return () => {
       socket.off('notification');
       socket.disconnect();
     };
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center p-6">
-        <span className="loading loading-spinner text-primary" />
-      </div>
-    );
-  }
+  if (loading) return (
+    <div className="flex justify-center items-center h-full py-10">
+      <span className="loading loading-ball loading-lg text-primary"></span>
+    </div>
+  );
 
-  if (!notifs.length) {
-    return <div className="p-6 text-center text-gray-500">No notifications available</div>;
-  }
+  if (!notifs.length) return (
+    <div className="alert alert-info shadow-lg mt-6 mx-6">
+      <div>
+        <Bell className="text-blue-500" size={24} />
+        <span>No notifications available</span>
+      </div>
+    </div>
+  );
+
+  // Define accent colors to cycle through
+  const colors = [
+    'border-primary', 'border-secondary', 'border-accent',
+    'border-info', 'border-success', 'border-warning', 'border-error'
+  ];
 
   return (
-    <div className="p-6 grid gap-4">
-      {notifs.map((n) => (
+    <div className="p-6 space-y-4">
+      {notifs.map((n, idx) => (
         <div
           key={n._id}
-          className="card bg-base-100 shadow-lg p-4 flex space-x-4 items-start border"
+          className={`card bg-base-200 shadow-lg p-4 border-l-8 ${colors[idx % colors.length]}`}
         >
-          <div className="p-2 rounded-full bg-primary text-white">
-            <Bell size={20} />
-          </div>
-          <div>
-            <h4 className="text-lg font-semibold text-gray-800">{n.title}</h4>
-            <p className="text-gray-600 mt-1">{n.message}</p>
-            <p className="text-sm text-gray-400 mt-2">
-              {new Date(n.createdAt).toLocaleString()}
-            </p>
+          <div className="flex items-start space-x-4">
+            <div className="p-2 bg-gradient-to-br from-primary to-secondary rounded-lg text-white">
+              <Bell size={24} />
+            </div>
+            <div className="flex-1">
+              <h4 className="text-xl font-semibold text-gray-800">{n.title}</h4>
+              <p className="text-gray-700 mt-1">{n.message}</p>
+            </div>
+            <div className="badge badge-outline badge-sm text-gray-500">{new Date(n.createdAt).toLocaleString()}</div>
           </div>
         </div>
       ))}
