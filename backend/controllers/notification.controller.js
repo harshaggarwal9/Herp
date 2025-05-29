@@ -5,7 +5,7 @@ export const postNotification = async(req,res)=>{
     const {title,message,targetRoles} = req.body;
     const sender = req.user._id;
     console.log(sender);
-    const notif = Notification.create(({ sender, title, message, targetRoles }));
+    const notif = await Notification.create(({ sender, title, message, targetRoles }));
     io.emit('notification', {
       _id: notif._id,
       sender,
