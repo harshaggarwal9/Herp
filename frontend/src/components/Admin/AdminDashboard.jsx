@@ -10,6 +10,7 @@ const tabs = [
   { label: "Create Notifications", path: "notifications" },
   { label: "Add Subject",path:"add-subject"},
   { label: "Add Class",path:"add-class"},
+  { label: "Create Slot",path:"create-timetable"},
 ];
 
 const AdminDashboard = () => {

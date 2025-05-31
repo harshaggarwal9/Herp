@@ -22,7 +22,7 @@ export default function FeePayment() {
   useEffect(() => {
     // fetch pending fees for this parent
     axios
-      .get('https://mjerp.onrender.com/api/parent/fetchFees')
+      .get('/api/parent/fetchFees')
       .then((res) => setFees(res.data))
       .catch(console.error);
   }, [token]);
@@ -32,7 +32,7 @@ export default function FeePayment() {
     try {
       // 1) Initiate payment
       const { data } = await axios.post(
-        `https://mjerp.onrender.com/api/fees/pay/${fee._id}`
+        `/api/fees/pay/${fee._id}`
       );
 
       // 2) Load checkout
@@ -54,7 +54,7 @@ export default function FeePayment() {
           // Optionally verify on client
           console.table()
           await axios.post(
-            'https://mjerp.onrender.com/api/fees/verify-payment',
+            '/api/fees/verify-payment',
             {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
@@ -63,7 +63,7 @@ export default function FeePayment() {
             },
           );
           // Refresh pending fees
-          const res = await axios.get('https://mjerp.onrender.com/api/parent/fetchFees'
+          const res = await axios.get('/api/parent/fetchFees'
           );
           setFees(res.data);
         },

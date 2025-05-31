@@ -23,6 +23,7 @@ import FeeManagement from './components/Admin/Feemanagement.jsx';
 import FeePayment from './components/parents/Fees.jsx';
 import Notification from './components/Admin/createNotification.jsx'
 import GetNotifications from './components/getNotifcations.jsx';
+import CreateSlot from './components/Admin/CreateTimeTable.jsx';
 const App = () => {
 
   const {user} = useAuthStore();
@@ -46,6 +47,7 @@ const App = () => {
             <Route path="add-class" element={<AddClass/>}/>
             <Route path="fee-management" element={<FeeManagement/>}/>
             <Route path="notifications" element={<Notification/>}/>
+            <Route path="create-timetable" element={<CreateSlot/>}/>
           </Route>
           </Route>
           <Route element={<ProtectedRoute allowedRole="teacher" />}>

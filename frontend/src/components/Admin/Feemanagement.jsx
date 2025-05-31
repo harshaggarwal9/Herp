@@ -9,7 +9,7 @@ export default function FeeManagement() {
   // Fetch all pending fees
   const fetchFees = async () => {
     try {
-      const res = await axios.get("https://mjerp.onrender.com/api/fees/all");
+      const res = await axios.get("/api/fees/all");
       setFees(res.data);
     } catch (err) {
       console.error(err);
@@ -28,7 +28,7 @@ export default function FeeManagement() {
   const submitChallan = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://mjerp.onrender.com/api/fees/create", formData);
+      await axios.post("/api/fees/create", formData);
       setModalOpen(false);
       setFormData({ RollNumber: "", amount: 0, dueDate: "" });
       fetchFees();
@@ -40,7 +40,7 @@ export default function FeeManagement() {
   const deleteChallan = async (id) => {
     if (!window.confirm("Are you sure you want to delete this challan?")) return;
     try {
-      await axios.delete(`https://mjerp.onrender.com/api/fees/delete/${id}`);
+      await axios.delete(`/api/fees/delete/${id}`);
       setFees((prev) => prev.filter((fee) => fee._id !== id));
     } catch (err) {
       console.error(err);

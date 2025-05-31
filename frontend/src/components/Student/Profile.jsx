@@ -8,7 +8,7 @@ function ProfileSection() {
   const id = user?._id;
   useEffect(() => {
     // Fetch student profile data
-    axios.get(`https://mjerp.onrender.com/api/student/profile/${id}`).then(res => setProfile(res.data)).catch(console.error);
+    axios.get(`/api/student/profile/${id}`).then(res => setProfile(res.data)).catch(console.error);
   }, []);
 
   if (!profile) {

@@ -13,7 +13,7 @@ const useAuthStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.post(
-        'https://mjerp.onrender.com/api/auth/login',
+        '/api/auth/login',
         { email, password },
         { withCredentials: true } // ✅ important for cookies
       );
@@ -35,7 +35,7 @@ const useAuthStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.post(
-        'https://mjerp.onrender.com/api/auth/signup',
+        '/api/auth/signup',
         { name, email, password, role },
         { withCredentials: true }
       );
@@ -53,7 +53,7 @@ const useAuthStore = create((set) => ({
 
   logout: async () => {
     try {
-      await axios.post('https://mjerp.onrender.com/api/auth/logout', {}, {
+      await axios.post('/api/auth/logout', {}, {
         withCredentials: true,
       });
       set({ user: null });

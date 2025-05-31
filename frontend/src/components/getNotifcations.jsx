@@ -5,7 +5,7 @@ import { Bell } from 'lucide-react';
 import { io } from 'socket.io-client';
 
 // Initialize socket
-const socket = io('https://mjerp.onrender.com', { withCredentials: true });
+const socket = io('http://localhost:5000', { withCredentials: true });
 
 export default function GetNotifications() {
   const [notifs, setNotifs] = useState([]);
@@ -16,7 +16,7 @@ export default function GetNotifications() {
     (async () => {
       try {
         const { data } = await axios.get(
-          'https://mjerp.onrender.com/api/notification/get',
+          '/api/notification/get',
           { withCredentials: true }
         );
         setNotifs(data);

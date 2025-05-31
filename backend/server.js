@@ -19,13 +19,14 @@ import path from "path"
 import http from "http"
 import {Server as SocketIOServer} from "socket.io"
 import noticationRoutes from "./routes/notification.route.js"
+import timeTableRoute from "./routes/timeTable.route.js"
 dotenv.config();
 const _dirname=path.resolve();
 const app = express()
 const server = http.createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: "https://mjerp.onrender.com",
+    origin: "http://localhost:5000",
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -34,7 +35,7 @@ app.set('io', io);
 
 app.use(express.json())
 app.use(cors({
-  origin: "https://mjerp.onrender.com", 
+  origin: "http://localhost:5000", 
   // ✅ No trailing slash
   credentials: true               // ✅ If you're using cookies or tokens
 }));
@@ -56,6 +57,7 @@ app.use("/api/admin",adminRoutes)
 app.use('/api/fees', feeRoutes);
 app.use('/webhooks/razorpay', webhookRoutes);
 app.use('/api/notification',noticationRoutes);
+app.use('/api/timitable',timeTableRoute);
 app.use(express.static(path.join(_dirname,"/frontend/dist")))
 app.get("*",(req,res)=>{
   res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))

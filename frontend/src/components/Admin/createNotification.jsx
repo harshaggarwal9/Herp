@@ -38,7 +38,7 @@ export default function CreateNotification() {
     setLoading(true);
     try {
       await axios.post(
-        'https://mjerp.onrender.com/api/notification/create',
+        '/api/notification/create',
         { title, message, targetRoles: targets },
         { withCredentials: true }
       );
