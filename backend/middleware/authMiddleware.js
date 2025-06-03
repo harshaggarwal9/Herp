@@ -22,7 +22,6 @@ export const authMiddleware = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({ success: false, message: "User not found" });
     }
-
     req.user = user; // Now req.user._id is available as decoded.userId
     next();
   } catch (err) {

@@ -57,7 +57,7 @@ app.use("/api/admin",adminRoutes)
 app.use('/api/fees', feeRoutes);
 app.use('/webhooks/razorpay', webhookRoutes);
 app.use('/api/notification',noticationRoutes);
-app.use('/api/timitable',timeTableRoute);
+app.use('/api/timetable',timeTableRoute);
 app.use(express.static(path.join(_dirname,"/frontend/dist")))
 app.get("*",(req,res)=>{
   res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))

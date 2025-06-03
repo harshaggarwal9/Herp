@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import ProfileSection from "./Profile";
 import GetNotifications from "../getNotifcations";
+import StudentTimeTable from "./TimeTable";
 
 export default function StudentDashboard() {
   const tabs = [
@@ -25,7 +26,7 @@ export default function StudentDashboard() {
       case "profile":
         return <ProfileSection/>;
       case "timetable":
-        return <h1 className="text-3xl font-semibold text-gray-700">Time Table Section</h1>;
+        return <h1 className="text-3xl font-semibold text-gray-700"><StudentTimeTable/></h1>;
       case "results":
         return <h1 className="text-3xl font-semibold text-gray-700">Results Section</h1>;
       case "fees":

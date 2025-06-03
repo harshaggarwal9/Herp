@@ -67,7 +67,7 @@ export default function CreateSlot() {
     }
 
     try {
-      await axios.post(`/api/teacher/create/${selectedTeacher}`, {
+      await axios.post(`/api/timetable/create/${selectedTeacher}`, {
         classId: selectedClass,
         subject: selectedSubject,
         day,

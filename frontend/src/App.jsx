@@ -24,6 +24,8 @@ import FeePayment from './components/parents/Fees.jsx';
 import Notification from './components/Admin/createNotification.jsx'
 import GetNotifications from './components/getNotifcations.jsx';
 import CreateSlot from './components/Admin/CreateTimeTable.jsx';
+import ShowTimeTable from './components/Teacher/GetTimetable.jsx';
+import StudentTimeTable from './components/Student/TimeTable.jsx';
 const App = () => {
 
   const {user} = useAuthStore();
@@ -57,6 +59,7 @@ const App = () => {
             <Route path="create-exam" element={<CreateExamForm/>}/>
             <Route path="create-result" element={<CreateResultForm/>}/>
             <Route path="notifications" element={<GetNotifications/>}/>
+            <Route path="Show-Timetable" element={<ShowTimeTable/>}/>
           </Route>
           </Route>
           <Route element={<ProtectedRoute allowedRole="student"/>}>
@@ -64,6 +67,7 @@ const App = () => {
             <Route index element={<Navigate to="profile" replace />} />
             <Route path="profile" element={<ProfileSection />} />
              <Route path="notifications" element={<GetNotifications/>}/>
+             <Route path="time table" element={<StudentTimeTable/>}/>
            </Route>
           </Route>
           <Route element={<ProtectedRoute allowedRole="parent"/>}>

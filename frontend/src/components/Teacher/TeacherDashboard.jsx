@@ -5,7 +5,7 @@ import { User, Clock, FileText, CheckSquare, Bell } from "lucide-react";
 
 const tabs = [
   { label: "Profile", path: "profile", icon: <User className="inline mr-1" /> },
-  { label: "Time Table", path: "timetable", icon: <Clock className="inline mr-1" /> },
+  { label: "Time Table", path: "Show-Timetable", icon: <Clock className="inline mr-1" /> },
   { label: "Create Exam", path: "create-exam", icon: <FileText className="inline mr-1" /> },
   { label: "Create Result", path: "create-result", icon: <CheckSquare className="inline mr-1" /> },
   { label: "Notifications", path: "notifications", icon: <Bell className="inline mr-1" /> },
