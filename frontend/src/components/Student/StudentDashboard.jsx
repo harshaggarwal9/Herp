@@ -9,7 +9,7 @@ import {
 import ProfileSection from "./Profile";
 import GetNotifications from "../getNotifcations";
 import StudentTimeTable from "./TimeTable";
-
+import StudentResults from "./ShowResult";
 export default function StudentDashboard() {
   const tabs = [
     { id: "profile", label: "Profile", icon: <User size={18} /> },
@@ -28,7 +28,7 @@ export default function StudentDashboard() {
       case "timetable":
         return <h1 className="text-3xl font-semibold text-gray-700"><StudentTimeTable/></h1>;
       case "results":
-        return <h1 className="text-3xl font-semibold text-gray-700">Results Section</h1>;
+        return <h1 className="text-3xl font-semibold text-gray-700"><StudentResults/></h1>;
       case "fees":
         return <h1 className="text-3xl font-semibold text-gray-700">Fee Payment Section</h1>;
       case "notifications":

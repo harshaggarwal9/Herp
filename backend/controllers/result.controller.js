@@ -25,9 +25,10 @@ export const createResult = async(req,res)=>{
   }
 }
 export const fetchResults=async(req,res)=>{
-  const {id}=req.params;
+  const id=req.user._id;
+  const student = await studentModel.findOne({userId:id});
   try {
-    const result = await resultModel.find({student:id}).populate([
+    const result = await resultModel.find({student:student._id}).populate([
       {path:"subject"},
       {path:"exam"},
       {path:"student"},

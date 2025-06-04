@@ -2,6 +2,7 @@ import Student from "../models/student.model.js";
 import User from "../models/userModel.js";
 import classModel from "../models/class.model.js";
 import parentModel from "../models/parent.model.js";
+import subjectModel from "../models/subject.model.js";
 export const createStudent = async (req, res) => {
   const { id } = req.params;
   const { RollNumber, className, section, phoneNumber } = req.body;
@@ -70,3 +71,14 @@ export const deleteStudent = async (req, res) => {
     console.log(error);
   }
 };
+export const fetchSubjects = async(req,res)=>{
+  try {
+    const id = req.user._id;
+    const student = await Student.findOne({userId:id});
+    const subjects = await subjectModel.find({classes:student.classId});
+    res.status(200).json(subjects);
+  } catch (error) {
+    res.status(500).json({ success: false, message: "internal server error" });
+    console.log(error);
+  }
+}

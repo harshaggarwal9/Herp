@@ -26,6 +26,7 @@ import GetNotifications from './components/getNotifcations.jsx';
 import CreateSlot from './components/Admin/CreateTimeTable.jsx';
 import ShowTimeTable from './components/Teacher/GetTimetable.jsx';
 import StudentTimeTable from './components/Student/TimeTable.jsx';
+import StudentResults from './components/Student/ShowResult.jsx';
 const App = () => {
 
   const {user} = useAuthStore();
@@ -68,6 +69,7 @@ const App = () => {
             <Route path="profile" element={<ProfileSection />} />
              <Route path="notifications" element={<GetNotifications/>}/>
              <Route path="time table" element={<StudentTimeTable/>}/>
+             <Route path="show result" elememnt={<StudentResults/>}/>
            </Route>
           </Route>
           <Route element={<ProtectedRoute allowedRole="parent"/>}>
