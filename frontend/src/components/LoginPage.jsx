@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../stores/useAuthStore';
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useAuthStore from "../stores/useAuthStore";
+import { Link } from "react-router-dom";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,19 +13,16 @@ const LoginPage = () => {
     const success = await login(email, password);
     if (success) {
       const user = useAuthStore.getState().user;
-      if (user.role === 'admin') {
-        navigate('/admin');
-      } else if(user.role === 'teacher'){
-        navigate('/teacher'); 
-      }
-      else if(user.role === 'student'){
-        navigate('/student');
-      }
-      else if(user.role === 'parent'){
-        navigate('/parent');
-      }
-      else {
-        navigate('/');
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else if (user.role === "teacher") {
+        navigate("/teacher");
+      } else if (user.role === "student") {
+        navigate("/student");
+      } else if (user.role === "parent") {
+        navigate("/parent");
+      } else {
+        navigate("/");
       }
     }
   };
@@ -77,8 +74,11 @@ const LoginPage = () => {
           className="btn btn-primary btn-lg w-full"
           disabled={loading}
         >
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? "Logging in..." : "Login"}
         </button>
+        <Link to="/signup" className="text-blue-600 hover:underline">
+          Don't have an account?
+        </Link>
       </form>
     </div>
   );

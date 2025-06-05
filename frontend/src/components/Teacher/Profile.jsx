@@ -6,7 +6,6 @@ import useAuthStore from "../../stores/useAuthStore";
 export default function Profile() {
   const [profile, setProfile] = useState(null);
   const { user } = useAuthStore();
-  console.log(user);
   const id = user?._id;
 
   useEffect(() => {
@@ -20,66 +19,50 @@ export default function Profile() {
   if (!profile) {
     return (
       <div className="flex justify-center items-center h-64">
-        <span className="loading loading-spinner loading-lg"></span>
+        <span className="loading loading-spinner loading-lg text-primary"></span>
       </div>
     );
   }
 
-  // Helper to get initials safely
-  const getInitials = (fullName = "") => {
-    if (typeof fullName !== 'string' || fullName.trim() === '') return '';
-    const parts = fullName.trim().split(/\s+/);
-    const initials = parts
-      .map((word) => word.charAt(0).toUpperCase())
-      .join("");
-    return initials;
-  };
-
   return (
-    <div className="max-w-3xl mx-auto p-4">
-      <div className="card bg-base-100 shadow-xl">
-        <div className="card-body">
-          <div className="flex items-center space-x-4 mb-6">
-            <div className="avatar">
-              <div className="w-24 h-24 rounded-full bg-primary text-primary-content flex items-center justify-center text-3xl">
-                {getInitials(profile.userId.name)}
-              </div>
-            </div>
-            <div>
-              <h2 className="card-title text-3xl">{profile.userId.name || 'No Name'}</h2>
-              <p className="text-sm opacity-70">{profile.userId.email || 'No Email'}</p>
-            </div>
+    <div className="max-w-3xl mx-auto p-6">
+      <div className="bg-white shadow-2xl rounded-xl overflow-hidden border border-gray-200">
+        <div className="p-6 flex items-center gap-6 border-b">
+          <div className="w-24 h-24 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center">
+            <User size={48} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800">
+              {profile.userId?.name || 'No Name'}
+            </h2>
+            <p className="text-gray-500">{profile.userId?.email || 'No Email'}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-6 bg-gray-50">
+          <div className="bg-blue-100 text-blue-900 rounded-lg p-4 shadow-sm">
+            <h4 className="text-sm font-medium text-blue-700">Subjects</h4>
+            <p className="text-lg font-semibold mt-1">
+              {Array.isArray(profile.subjects) && profile.subjects.length > 0
+                ? profile.subjects.join(", ")
+                : 'N/A'}
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="stat bg-base-200 p-4 rounded-lg">
-              <div className="stat-title">Subjects</div>
-              <div className="stat-value text-lg">
-                {Array.isArray(profile.subjects) && profile.subjects.length > 0
-                  ? profile.subjects.join(", ")
-                  : 'N/A'}
-              </div>
-            </div>
-
-            <div className="stat bg-base-200 p-4 rounded-lg">
-              <div className="stat-title">Experience</div>
-              <div className="stat-value text-lg">
-                {typeof profile.experience === 'number'
-                  ? `${profile.experience} ${profile.experience > 1 ? 'years' : 'year'}`
-                  : 'N/A'}
-              </div>
-            </div>
-
-            <div className="stat bg-base-200 p-4 rounded-lg md:col-span-2">
-              <div className="stat-title">Qualifications</div>
-              <div className="stat-value text-lg">
-                {profile.qualification || 'N/A'}
-              </div>
-            </div>
+          <div className="bg-yellow-100 text-yellow-900 rounded-lg p-4 shadow-sm">
+            <h4 className="text-sm font-medium text-yellow-700">Experience</h4>
+            <p className="text-lg font-semibold mt-1">
+              {typeof profile.experience === 'number'
+                ? `${profile.experience} ${profile.experience > 1 ? 'years' : 'year'}`
+                : 'N/A'}
+            </p>
           </div>
 
-          <div className="card-actions justify-end mt-6">
-            <button className="btn btn-primary">Edit Profile</button>
+          <div className="sm:col-span-2 bg-green-100 text-green-900 rounded-lg p-4 shadow-sm">
+            <h4 className="text-sm font-medium text-green-700">Qualifications</h4>
+            <p className="text-lg font-semibold mt-1">
+              {profile.qualification || 'N/A'}
+            </p>
           </div>
         </div>
       </div>

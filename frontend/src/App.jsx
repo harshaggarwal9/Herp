@@ -27,6 +27,7 @@ import CreateSlot from './components/Admin/CreateTimeTable.jsx';
 import ShowTimeTable from './components/Teacher/GetTimetable.jsx';
 import StudentTimeTable from './components/Student/TimeTable.jsx';
 import StudentResults from './components/Student/ShowResult.jsx';
+import GetNotifications2 from './components/getNotification2.jsx';
 const App = () => {
 
   const {user} = useAuthStore();
@@ -67,7 +68,7 @@ const App = () => {
             <Route path = "/student" element ={<StudentDashboard/>}> 
             <Route index element={<Navigate to="profile" replace />} />
             <Route path="profile" element={<ProfileSection />} />
-             <Route path="notifications" element={<GetNotifications/>}/>
+             <Route path="notifications" element={<GetNotifications2/>}/>
              <Route path="time table" element={<StudentTimeTable/>}/>
              <Route path="show result" elememnt={<StudentResults/>}/>
            </Route>
@@ -77,7 +78,7 @@ const App = () => {
           <Route index element={<Navigate to = "profile" replace />}/>
           <Route path="profile" element={<ParentProfileSection/>}/>
           <Route path="fee-payment" element={<FeePayment/>}/>
-          <Route path="notifications" element={<GetNotifications/>}/>
+          <Route path="notifications" element={<GetNotifications2/>}/>
           </Route>
           </Route>
         </Routes>

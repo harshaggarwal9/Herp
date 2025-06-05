@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import ProfileSection from "./profile";
 import FeePayment from "./Fees";
-import GetNotifications from "../getNotifcations";
+import GetNotifications2 from "../getNotification2";
 
 export default function ParentDashboard() {
   const tabs = [
@@ -36,7 +36,7 @@ export default function ParentDashboard() {
       case "notifications":
         return (
           <h1 className="text-3xl font-semibold text-gray-700">
-            <GetNotifications/>
+            <GetNotifications2/>
           </h1>
         );
       default:

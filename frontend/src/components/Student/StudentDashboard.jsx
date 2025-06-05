@@ -7,9 +7,9 @@ import {
   Bell,
 } from "lucide-react";
 import ProfileSection from "./Profile";
-import GetNotifications from "../getNotifcations";
 import StudentTimeTable from "./TimeTable";
 import StudentResults from "./ShowResult";
+import GetNotifications2 from "../getNotification2";
 export default function StudentDashboard() {
   const tabs = [
     { id: "profile", label: "Profile", icon: <User size={18} /> },
@@ -32,7 +32,7 @@ export default function StudentDashboard() {
       case "fees":
         return <h1 className="text-3xl font-semibold text-gray-700">Fee Payment Section</h1>;
       case "notifications":
-        return <h1 className="text-3xl font-semibold text-gray-700"><GetNotifications/></h1>;
+        return <h1 className="text-3xl font-semibold text-gray-700"><GetNotifications2/></h1>;
       default:
         return null;
     }

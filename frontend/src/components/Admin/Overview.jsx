@@ -5,7 +5,6 @@ import {
   Hourglass,
   BookOpen,
   Banknote,
-  Bell,
 } from "lucide-react";
 
 const OverviewCard = ({ title, value, Icon, color }) => (
@@ -26,30 +25,22 @@ const Overview = () => {
     pendingUsers: 0,
     totalClasses: 0,
     totalFees: 0,
-    totalNotifications: 0,
   });
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [userRes, pendingRes, classRes, feeRes, notificationRes] = await Promise.all([
-          axios.get("/api/users"),
-          axios.get("/api/admin/pending-users"),
-          axios.get("/api/classes"),
-          axios.get("/api/fees"),
-          axios.get("/api/notifications"),
+        const [userRes, pendingRes, classRes, feeRes] = await Promise.all([
+          axios.get("/api/admin/totaluser"),
+          axios.get("/api/admin/totalpendingusers"),
+          axios.get("/api/admin/totalclasses"),
+          axios.get("/api/admin/totalfees"),
         ]);
-
-        const totalFeesCollected = feeRes.data.reduce((sum, fee) => {
-          return fee.status === "Paid" ? sum + fee.amount : sum;
-        }, 0);
-
         setStats({
-          totalUsers: userRes.data.length,
-          pendingUsers: pendingRes.data.length,
-          totalClasses: classRes.data.length,
-          totalFees: totalFeesCollected,
-          totalNotifications: notificationRes.data.length,
+          totalUsers: userRes.data.count,
+          pendingUsers: pendingRes.data.count,
+          totalClasses: classRes.data.count,
+          totalFees: feeRes.data.ans,
         });
       } catch (error) {
         console.error("Failed to load dashboard stats", error);
@@ -65,7 +56,6 @@ const Overview = () => {
       <OverviewCard title="Pending Approvals" value={stats.pendingUsers} Icon={Hourglass} color="bg-yellow-500" />
       <OverviewCard title="Total Classes" value={stats.totalClasses} Icon={BookOpen} color="bg-green-500" />
       <OverviewCard title="Fees Collected" value={`₹${stats.totalFees}`} Icon={Banknote} color="bg-emerald-600" />
-      <OverviewCard title="Notifications" value={stats.totalNotifications} Icon={Bell} color="bg-purple-600" />
     </div>
   );
 };

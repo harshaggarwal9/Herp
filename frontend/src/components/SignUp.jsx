@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useAuthStore from "../stores/useAuthStore.js";
+import { Link } from "react-router-dom";
 
 function SignUp() {
   const [name, setName] = useState("");
@@ -14,67 +15,67 @@ function SignUp() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-base-grey-200 px-4">
+    <div className="flex items-center justify-center h-screen bg-base-grey-200 px-4">
       <form
         onSubmit={handleSubmit}
-        className="card w-full max-w-lg shadow-2xl bg-base-100 p-12 space-y-8 rounded-lg"
+        className="card w-full max-w-md shadow-xl bg-base-100 p-6 sm:p-8 space-y-5 rounded-lg"
       >
-        <h2 className="text-4xl font-extrabold text-center text-primary mb-4">
+        <h2 className="text-3xl font-bold text-center text-primary mb-2">
           Sign Up
         </h2>
 
-        <div className="form-control mb-6">
-          <label htmlFor="name" className="label mb-2">
-            <span className="label-text font-medium ">Name</span>
+        <div className="form-control">
+          <label htmlFor="name" className="label">
+            <span className="label-text font-medium">Name</span>
           </label>
           <input
             type="text"
             id="name"
             placeholder="Your full name"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full text-sm"
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
 
-        <div className="form-control mb-6">
-          <label htmlFor="email" className="label mb-2">
+        <div className="form-control">
+          <label htmlFor="email" className="label">
             <span className="label-text font-medium">Email</span>
           </label>
           <input
             type="email"
             id="email"
             placeholder="you@example.com"
-            className="input input-bordered w-full"
+            className="input input-bordered w-full text-sm"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
-        <div className="form-control mb-6">
-          <label htmlFor="password" className="label mb-2">
-            <span className="label-text font-medium ">Password</span>
+        <div className="form-control">
+          <label htmlFor="password" className="label">
+            <span className="label-text font-medium">Password</span>
           </label>
           <input
             type="password"
             id="password"
             placeholder="••••••••"
-            className="input input-bordered w-full "
+            className="input input-bordered w-full text-sm"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
-        <div className="form-control mb-8">
-          <label htmlFor="role" className="label mb-2">
+        <div className="form-control">
+          <label htmlFor="role" className="label">
             <span className="label-text font-medium">Role</span>
           </label>
           <select
             id="role"
-            className="select select-bordered w-full"
+            className="select select-bordered w-full text-sm"
             required
             value={role}
             onChange={(e) => setRole(e.target.value)}
@@ -91,11 +92,15 @@ function SignUp() {
 
         <button
           type="submit"
-          className="btn btn-primary btn-lg w-full"
+          className="btn btn-primary btn-md w-full mt-2"
           disabled={loading}
         >
           {loading ? "Signing Up..." : "Sign Up"}
         </button>
+
+        <Link to="/" className="text-blue-600 hover:underline text-center block text-sm">
+          Already have an account?
+        </Link>
       </form>
     </div>
   );

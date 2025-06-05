@@ -1,6 +1,10 @@
 import express from "express";
-import { getPendingUsers, approveUser } from "../controllers/admin.controller.js";
+import { getPendingUsers, approveUser, totalUser, totalClasses, totalPendingUsers, totalfeescollected } from "../controllers/admin.controller.js";
 const router = express.Router();
 router.get("/pending-users", getPendingUsers);
 router.post("/approve-user", approveUser);
+router.get("/totaluser",totalUser);
+router.get("/totalclasses",totalClasses);
+router.get("/totalpendingusers",totalPendingUsers);
+router.get("/totalfees",totalfeescollected);
 export default router;
