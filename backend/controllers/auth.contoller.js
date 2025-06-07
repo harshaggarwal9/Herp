@@ -43,3 +43,6 @@ export const signup = async(req,res)=>{
     res.status(500).json({message:"internal server error"});
   }
 }
+export const logout= (req,res)=>{
+  res.clearCookie("jwt");
+}
