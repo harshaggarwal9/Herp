@@ -12,7 +12,7 @@ export const generateToken = (userId, role, res) => {
     res.cookie("jwt", token, {
       httpOnly: true,
       sameSite: "strict",
-      // secure: true // in production
+      secure: true // in production
     });
 
     return token;

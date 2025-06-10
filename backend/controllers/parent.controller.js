@@ -1,6 +1,9 @@
 import feesModel from "../models/fees.model.js";
 import Parent from "../models/parent.model.js";
 import User from "../models/userModel.js";
+import Student from "../models/student.model.js";
+import resultModel from "../models/result.model.js";
+import subjectModel from "../models/subject.model.js";
 export const createParent = async (req, res) => {
   const { id } = req.params;
   const { phone} = req.body;
@@ -47,19 +50,16 @@ export const getParent = async(req,res)=>{
 }
 export const fetchParentPendingFees = async (req, res) => {
   try {
-    // 1) Assuming you have JWT auth that populates req.user._id
     const parentId = req.user._id;
-    // 2) Load parent and their children array
     const parent = await Parent.findOne({userId:parentId});
     if (!parent) {
       return res.status(404).json({ success: false, message: "Parent not found" });
     }
-    // 3) Find all fees for those student IDs that are still pending
     const pendingFees = await feesModel.find({
       student: { $in: parent.childrens },
       status: "Pending"
     })
-    .populate("student", "RollNumber userId")   // pull in roll + name if you need
+    .populate("student", "RollNumber userId")  
     .sort({ dueDate: 1 });
 
     return res.status(200).json(pendingFees);
@@ -68,3 +68,30 @@ export const fetchParentPendingFees = async (req, res) => {
     return res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+export const fetchChildrensSubjects = async(req,res)=>{
+  try {
+    const {id} = req.body;
+    const student = await Student.findById(id);
+    const subjects = await subjectModel.find({classes:student.classId});
+    res.status(200).json(subjects);
+  } catch (error) {
+    res.status(500).json({ success: false, message: "internal server error" });
+    console.log(error);
+  }
+}
+export const fetchChildrenResult = async(req,res)=>{
+  const {id}=req.body;
+    const student = await Student.findById(id);
+    try {
+      const result = await resultModel.find({student:student._id}).populate([
+        {path:"subject"},
+        {path:"exam"},
+        {path:"student"},
+      ]);
+      if(!result) res.status(404).json({message:"no student found with this id"});
+      res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: "internal server errror" });
+    }
+} 

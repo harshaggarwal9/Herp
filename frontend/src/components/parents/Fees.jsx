@@ -6,8 +6,6 @@ export default function FeePayment() {
   const [fees, setFees] = useState([]);
   const [loading, setLoading] = useState(false);
   const { token } = useAuthStore();
-
-  // Load Razorpay script
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       if (window.Razorpay) return resolve(true);
@@ -20,7 +18,6 @@ export default function FeePayment() {
   };
 
   useEffect(() => {
-    // fetch pending fees for this parent
     axios
       .get('/api/parent/fetchFees')
       .then((res) => setFees(res.data))
@@ -30,12 +27,9 @@ export default function FeePayment() {
   const handlePay = async (fee) => {
     setLoading(true);
     try {
-      // 1) Initiate payment
       const { data } = await axios.post(
         `/api/fees/pay/${fee._id}`
       );
-
-      // 2) Load checkout
       const ok = await loadRazorpayScript();
       if (!ok) {
         alert('Failed to load Razorpay SDK');
@@ -51,7 +45,7 @@ export default function FeePayment() {
         description: `Fee for Roll No ${fee.student.RollNumber}`,
         order_id: data.orderId,
         handler: async (response) => {
-          // Optionally verify on client
+         
           console.table()
           await axios.post(
             '/api/fees/verify-payment',
@@ -62,7 +56,7 @@ export default function FeePayment() {
               feeId: fee._id
             },
           );
-          // Refresh pending fees
+
           const res = await axios.get('/api/parent/fetchFees'
           );
           setFees(res.data);

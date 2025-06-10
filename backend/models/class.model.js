@@ -18,7 +18,6 @@ const classSchema = new mongoose.Schema({
   subjects: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Subject" }
   ],
-  // New field to track which teacher teaches which subject in a class
   subjectTeachers: [
     {
       subject: {

@@ -3,18 +3,14 @@ import studentModel from "../models/student.model.js";
 import subjectModel from "../models/subject.model.js";
 import Teacher from "../models/teacher.model.js";
 import TimetableSlot from "../models/timetable.model.js";
-
-// Admin: create a new timetable slot
 export const createSlot = async (req, res) => {
   try {
     const { id: teacherId } = req.params;
     const { classId, subject, day, startTime, endTime } = req.body;
-    // Basic validation
     if (!teacherId || !classId || !subject || !day || !startTime || !endTime) {
       return res.status(400).json({ message: "All fields are required" });
     }
     const teacher = await Teacher.findById(teacherId);
-    console.log(teacher);
     if (!teacher) return res.status(404).json({ message: "Teacher not found" });
 
     const classDoc = await classModel.findById(classId);
@@ -23,7 +19,6 @@ export const createSlot = async (req, res) => {
     const subjectDoc = await subjectModel.findOne({ name: subject });
     if (!subjectDoc)
       return res.status(404).json({ message: "Subject not found" });
-    // Create the slot
     const slot = await TimetableSlot.create({
       teacher: teacher._id,
       class: classDoc._id,
@@ -35,7 +30,6 @@ export const createSlot = async (req, res) => {
 
     return res.status(201).json(slot);
   } catch (err) {
-    // Duplicate key error: slot already exists for that class/day/startTime
     if (err.code === 11000) {
       return res.status(400).json({
         message:
@@ -46,8 +40,6 @@ export const createSlot = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-// Teacher: get all slots assigned to this teacher
 export const getSlotsByTeacher = async (req, res) => {
   try {
     const teacherId = req.user._id;
@@ -70,8 +62,6 @@ export const getSlotsByTeacher = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-// Student: get all slots for a given class
 export const getSlotsByClass = async (req, res) => {
   try {
     const id = req.user._id;

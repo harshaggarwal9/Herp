@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast';
 import { Bell } from 'lucide-react';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000', { withCredentials: true });
+const socket = io('https://mjerp.onrender.com', { withCredentials: true });
 
 export default function GetNotifications() {
   const [notifs, setNotifs] = useState([]);

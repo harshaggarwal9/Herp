@@ -24,7 +24,7 @@ const studentSchema = new mongoose.Schema({
         const ClassModel = mongoose.model("Class");
         const classData = await ClassModel.findById(this.classId);
         
-        if (!classData) return false; // Class not found
+        if (!classData) return false; 
         
         return classData.className === "11" || classData.className === "12";
       },

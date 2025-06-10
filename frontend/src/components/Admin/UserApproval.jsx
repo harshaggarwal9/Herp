@@ -56,18 +56,13 @@ export default function UserApproval() {
       default:
         return;
     }
-
-    // 1) Create the domain-specific record
     await axios.post(url, payload,{
       withCredentials : true
     });
-
-    // 2) Finally, mark the user approved in your admin store
     await approveUser(id, "approve");
     closeModal();
   };
 
-  // shared onChange
   const onChange = (e) =>
     setFormData((p) => ({ ...p, [e.target.name]: e.target.value }));
 

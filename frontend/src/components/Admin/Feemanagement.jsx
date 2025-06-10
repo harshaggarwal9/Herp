@@ -5,8 +5,6 @@ export default function FeeManagement() {
   const [fees, setFees] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({ RollNumber: "", amount: 0, dueDate: "" });
-
-  // Fetch all pending fees
   const fetchFees = async () => {
     try {
       const res = await axios.get("/api/fees/all");

@@ -46,7 +46,7 @@ export const getStudent = async (req, res) => {
       { path: "classId" },
       {
         path: "parent",
-        populate: { path: "userId" }, // This will populate parent's userId
+        populate: { path: "userId" }, 
       },
     ]);
     if (!user)

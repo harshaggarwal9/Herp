@@ -12,7 +12,7 @@ import ProfileSection from "./profile";
 import FeePayment from "./Fees";
 import GetNotifications2 from "../getNotification2";
 import { toast } from "react-hot-toast";
-
+import ShowResult from "./ShowResult.jsx";
 export default function ParentDashboard() {
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ export default function ParentDashboard() {
       case "results":
         return (
           <h1 className="text-3xl font-semibold text-gray-700">
-            Results Section
+            <ShowResult/>
           </h1>
         );
       case "notifications":

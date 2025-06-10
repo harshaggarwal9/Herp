@@ -101,7 +101,6 @@ export default function CreateResultForm() {
 
     setSubmitting(true);
     try {
-      // Send individual POST requests matching backend signature
       await Promise.all(
         results.map(r =>
           axios.post(
@@ -114,7 +113,7 @@ export default function CreateResultForm() {
           )
         )
       );
-      toast.error("All results saved successfully!");
+      toast.success("All results saved successfully!");
       setResults([]);
     } catch (err) {
       console.error(err);

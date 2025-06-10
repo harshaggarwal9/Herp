@@ -4,7 +4,6 @@ export const postNotification = async(req,res)=>{
     const io = req.app.get('io');
     const {title,message,targetRoles} = req.body;
     const sender = req.user._id;
-    console.log(sender);
     const notif = await Notification.create(({ sender, title, message, targetRoles }));
     io.emit('notification', {
       _id: notif._id,
@@ -25,7 +24,6 @@ export const postNotification = async(req,res)=>{
 export const getNotification = async(req,res)=>{
   try {
      const role = req.user.role;
-     console.log(role); 
     const notifs = await Notification.find({ targetRoles: role })
       .sort('-createdAt')
       .lean();

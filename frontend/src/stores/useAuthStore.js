@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { create } from "zustand";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 axios.defaults.withCredentials = true; // ✅ enable cookies for all requests
 
@@ -13,7 +13,7 @@ const useAuthStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.post(
-        '/api/auth/login',
+        "/api/auth/login",
         { email, password },
         { withCredentials: true } // ✅ important for cookies
       );
@@ -23,7 +23,7 @@ const useAuthStore = create((set) => ({
       return true;
     } catch (error) {
       set({
-        error: error.response?.data?.message || 'Login failed',
+        error: error.response?.data?.message || "Login failed",
         loading: false,
       });
       toast.error(error.response?.data?.message || "Login failed");
@@ -35,7 +35,7 @@ const useAuthStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.post(
-        '/api/auth/signup',
+        "/api/auth/signup",
         { name, email, password, role },
         { withCredentials: true }
       );
@@ -44,7 +44,7 @@ const useAuthStore = create((set) => ({
       toast.success("Signup successful, waiting for admin approval");
     } catch (error) {
       set({
-        error: error.response?.data?.message || 'Signup failed',
+        error: error.response?.data?.message || "Signup failed",
         loading: false,
       });
       toast.error(error.response?.data?.message || "Signup failed");
@@ -53,13 +53,29 @@ const useAuthStore = create((set) => ({
 
   logout: async () => {
     try {
-      await axios.post('/api/auth/logout', {}, {
-        withCredentials: true,
-      });
+      await axios.post(
+        "/api/auth/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
       set({ user: null });
       toast.success("Logged out successfully");
     } catch (error) {
       toast.error("Logout failed");
+    }
+  },
+  loadUser: async () => {
+    set({ loading: true, error: null });
+    try {
+      const response = await axios.get("/api/auth/profile", {
+        withCredentials: true,
+      });
+      set({ user: response.data, loading: false });
+    } catch (error) {
+      set({ user: null, loading: false });
+      console.error("User load failed:", error);
     }
   },
 }));

@@ -12,10 +12,14 @@ const daysOfWeek = [
   'Sunday',
 ];
 
-const colorThemes = [
-  'bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white',
-  'bg-gradient-to-r from-cyan-500 to-blue-500 text-white',
-  'bg-gradient-to-r from-yellow-400 to-orange-500 text-white',
+const rowGradients = [
+  'bg-gradient-to-r from-purple-100 via-pink-100 to-white',
+  'bg-gradient-to-r from-cyan-100 via-blue-100 to-white',
+  'bg-gradient-to-r from-yellow-100 via-orange-100 to-white',
+  'bg-gradient-to-r from-green-100 via-lime-100 to-white',
+  'bg-gradient-to-r from-indigo-100 via-violet-100 to-white',
+  'bg-gradient-to-r from-rose-100 via-fuchsia-100 to-white',
+  'bg-gradient-to-r from-emerald-100 via-teal-100 to-white',
 ];
 
 const StudentTimeTable = () => {
@@ -43,7 +47,7 @@ const StudentTimeTable = () => {
   }, [selectedDay]);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 min-h-screen bg-gradient-to-br from-slate-100 via-white to-slate-200 space-y-6">
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <BookOpen className="w-6 h-6 text-purple-600" />
@@ -72,25 +76,35 @@ const StudentTimeTable = () => {
       ) : slots.length === 0 ? (
         <div className="text-center text-gray-500">No slots scheduled for {selectedDay}.</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {slots.map((slot, index) => {
-            const theme = colorThemes[index % colorThemes.length];
-            return (
-              <div
-                key={slot._id || index}
-                className={`card shadow-xl ${theme} p-6 rounded-2xl`}
-              >
-                <div className="space-y-2">
-                  <h3 className="text-xl font-semibold">
-                    {slot.subject.name}
-                  </h3>
-                  <p className="text-sm">Teacher: {slot.teacher.userId.name}</p>
-                  <p className="text-sm">Time: {slot.startTime} - {slot.endTime}</p>
-                  <p className="text-sm">Day: {slot.day}</p>
-                </div>
-              </div>
-            );
-          })}
+        <div className="overflow-x-auto rounded-xl shadow-lg backdrop-blur bg-white/30 p-4">
+          <table className="min-w-full table-auto border-separate border-spacing-y-3">
+            <thead>
+              <tr className="bg-gradient-to-r from-pink-500 to-purple-500 text-white uppercase text-sm tracking-wider rounded-t-xl">
+                <th className="px-4 py-3 text-left rounded-l-xl">Subject</th>
+                <th className="px-4 py-3 text-left">Teacher</th>
+                <th className="px-4 py-3 text-left">Time</th>
+                <th className="px-4 py-3 text-left rounded-r-xl">Day</th>
+              </tr>
+            </thead>
+            <tbody>
+              {slots.map((slot, index) => {
+                const gradientClass = rowGradients[index % rowGradients.length];
+                return (
+                  <tr
+                    key={slot._id || index}
+                    className={`text-gray-800 transition-all duration-200 hover:scale-[1.015] hover:shadow-lg rounded-xl ${gradientClass}`}
+                  >
+                    <td className="px-4 py-3 font-semibold">{slot.subject.name}</td>
+                    <td className="px-4 py-3">{slot.teacher.userId.name}</td>
+                    <td className="px-4 py-3">
+                      {slot.startTime} - {slot.endTime}
+                    </td>
+                    <td className="px-4 py-3">{slot.day}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

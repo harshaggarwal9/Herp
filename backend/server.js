@@ -26,7 +26,7 @@ const app = express()
 const server = http.createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: "http://localhost:5000",
+    origin: "https://mjerp.onrender.com",
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -35,9 +35,8 @@ app.set('io', io);
 
 app.use(express.json())
 app.use(cors({
-  origin: "http://localhost:5000", 
-  // ✅ No trailing slash
-  credentials: true               // ✅ If you're using cookies or tokens
+  origin: "https://mjerp.onrender.com", 
+  credentials: true               
 }));
 app.use(
   '/webhooks/razorpay',
@@ -59,13 +58,12 @@ app.use('/webhooks/razorpay', webhookRoutes);
 app.use('/api/notification',noticationRoutes);
 app.use('/api/timetable',timeTableRoute);
 app.use(express.static(path.join(_dirname,"/frontend/dist")))
-app.get("*",(req,res)=>{
-  res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"))
-})
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
+});
+
 io.on('connection', (socket) => {
-  console.log(`Client connected: ${socket.id}`);
   socket.on('disconnect', () => {
-  console.log(`Client disconnected: ${socket.id}`);
   });
 });
 server.listen(process.env.PORT,()=>{

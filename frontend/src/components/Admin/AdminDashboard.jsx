@@ -1,4 +1,4 @@
-// AdminDashboard.jsx
+
 import React, { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";

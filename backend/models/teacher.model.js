@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-
-// Validator to enforce maximum of 4 classes per teacher
 function arrayLimit(val) {
   return val.length <= 4;
 }

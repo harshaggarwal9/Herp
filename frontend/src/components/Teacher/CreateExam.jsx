@@ -1,4 +1,3 @@
-// Frontend: CreateExamForm.jsx
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useAuthStore from "../../stores/useAuthStore";
@@ -18,8 +17,6 @@ export default function CreateExamForm() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
-
-  // Fetch teacher with populated classes and subjects
   useEffect(() => {
     if (!userId) return;
     axios.get(`/api/teacher/fetch/${userId}`)
@@ -35,10 +32,8 @@ export default function CreateExamForm() {
   );
 
   if (!teacher) return <p className="text-center text-red-500">Unable to load teacher data.</p>;
-
-  // Prepare subject and class options
-  const subjectOptions = teacher.subjects || []; // array of string subjects
-  const classOptions = teacher.classes || [];    // array of { _id, className, section }
+  const subjectOptions = teacher.subjects || []; 
+  const classOptions = teacher.classes || [];   
 
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -63,8 +58,8 @@ export default function CreateExamForm() {
         name: formData.name,
         date: formData.date,
         marks: Number(formData.marks),
-        subject: formData.subject,   // sending subject name string
-        classes: formData.classes    // sending class IDs
+        subject: formData.subject,  
+        classes: formData.classes    
       });
       setMessage({ type: "success", text: "Exam created successfully!" });
       setFormData({ name: "", date: "", marks: "", subject: "", classes: [] });
@@ -142,7 +137,7 @@ export default function CreateExamForm() {
               >
                 <option value="" disabled>Select subject</option>
                 {subjectOptions.map(sub => (
-                  <option key={sub} value={sub}>{sub}</option> // use string subject
+                  <option key={sub} value={sub}>{sub}</option> 
                 ))}
               </select>
             </div>

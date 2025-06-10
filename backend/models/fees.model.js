@@ -18,7 +18,7 @@ const feeSchema = new mongoose.Schema({
 
   status: { type: String, enum: ["Paid", "Pending"], default: "Pending" },
 
-  paymentDetails: paymentInfoSchema, // Razorpay-related details
+  paymentDetails: paymentInfoSchema,
 
 }, { timestamps: true });
 

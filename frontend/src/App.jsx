@@ -28,10 +28,16 @@ import ShowTimeTable from './components/Teacher/GetTimetable.jsx';
 import StudentTimeTable from './components/Student/TimeTable.jsx';
 import StudentResults from './components/Student/ShowResult.jsx';
 import GetNotifications2 from './components/getNotification2.jsx';
+import { useEffect } from 'react';
+import ParentStudentResults from './components/parents/ShowResult.jsx';
 const App = () => {
 
   const {user} = useAuthStore();
+  const loadUser = useAuthStore((state) => state.loadUser);
 
+  useEffect(() => {
+    loadUser();
+  }, []);
   return (
     <div className="bg-[#102E50] h-screen">
       <Toaster />
@@ -79,6 +85,7 @@ const App = () => {
           <Route path="profile" element={<ParentProfileSection/>}/>
           <Route path="fee-payment" element={<FeePayment/>}/>
           <Route path="notifications" element={<GetNotifications2/>}/>
+          <Route path="show-results" element={<ParentStudentResults/>}/>
           </Route>
           </Route>
         </Routes>

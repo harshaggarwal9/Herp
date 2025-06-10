@@ -21,13 +21,12 @@ export const createTeacher = async(req,res)=>{
   }
 }
 export const fetchTeacher = async (req, res) => {
-  const { userId } = req.params;            // ← rename “id” to “userId”
+  const { userId } = req.params;           
   try {
-    // find the ONE teacher doc whose userId field equals the logged-in user's id
   const teacher = await Teacher
       .findOne({ userId })
-      .populate("userId")               // if you need any user fields
-      .populate("classes")       // <-- bring in className & section
+      .populate("userId")             
+      .populate("classes")      
     if (!teacher) {
       return res.status(404).json({ message: "Teacher not found for this user" });
     }
@@ -43,7 +42,6 @@ export const assignTeacher = async (req, res) => {
   const { classId, subject } = req.body;
 
   try {
-    // 1️⃣ Fetch teacher, class, subject
     const teacher = await Teacher.findById(teacherId);
     if (!teacher) 
       return res.status(404).json({ message: "Teacher not found" });
@@ -55,25 +53,16 @@ export const assignTeacher = async (req, res) => {
     const subjectDoc = await Subject.findOne({ name: subject });
     if (!subjectDoc) 
       return res.status(404).json({ message: "Subject not found" });
-
-    // 2️⃣ Rule 1: Max 6 classes total
-    // 2️⃣ Rule 1: Max 4 classes total
     if (teacher.classes.length >= 4) {
         return res.status(400).json({
           message: "Teacher already has 4 classes assigned"
         });
     }
-
-
-    // 3️⃣ Rule 2: Subject must be in teacher’s interests
     if (!teacher.subjects.includes(subject)) {
       return res.status(400).json({
         message: "Teacher does not teach this subject"
       });
     }
-
-    // 4️⃣ Rule 3: No other teacher for this subject in this class
-    //    We assume classDoc.subjectTeachers = [{ subject, teacher }]
     const conflict = classDoc.subjectTeachers.find(
       (st) => st.subject === subject
     );
@@ -82,18 +71,9 @@ export const assignTeacher = async (req, res) => {
         message: "This subject already has a teacher in that class"
       });
     }
-
-    // 5️⃣ All checks passed → perform updates atomically
-    // Add class to teacher
     teacher.classes.push(classDoc._id);
-
-    // Add this teacher/subject to the class
     classDoc.subjectTeachers.push({ subject, teacher: teacher._id });
-
-    // Add teacher to subject’s teacher list
     subjectDoc.teacher.addToSet(teacher._id);
-
-    // Save all three docs
     await Promise.all([
       teacher.save(),
       classDoc.save(),
@@ -112,12 +92,11 @@ export const assignTeacher = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-// controllers/teacher.controller.js
 export const fetchAllTeachers = async (req, res) => {
   try {
     const teacherData = await Teacher
       .find({})
-      .populate("userId", "name email");      // ← populate only name & email
+      .populate("userId", "name email");    
     return res.status(200).json({
       success: true,
       message: "Teachers fetched successfully",

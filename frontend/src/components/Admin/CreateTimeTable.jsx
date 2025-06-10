@@ -20,8 +20,6 @@ export default function CreateSlot() {
   const [day, setDay] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-
-  // Fetch all teachers & classes on mount
   useEffect(() => {
     (async () => {
       try {
@@ -37,19 +35,13 @@ export default function CreateSlot() {
       }
     })();
   }, []);
-
-  // Find the selected teacher object
   const teacherObj = teachers.find((t) => t._id === selectedTeacher) || null;
-
-  // Filter classes to only those this teacher teaches
   const filteredClasses = teacherObj
     ? classes.filter((c) => teacherObj.classes?.includes(c._id))
     : [];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Basic validation: ensure all fields are selected/filled
     if (
       !selectedTeacher ||
       !selectedClass ||
@@ -60,8 +52,6 @@ export default function CreateSlot() {
     ) {
       return toast.error("Please fill in all fields.");
     }
-
-    // Ensure startTime is before endTime
     if (startTime >= endTime) {
       return toast.error("Start time must be before end time.");
     }
@@ -75,8 +65,6 @@ export default function CreateSlot() {
         endTime,
       });
       toast.success("✅ Slot created successfully");
-
-      // Reset form
       setSelectedTeacher("");
       setSelectedClass("");
       setSelectedSubject("");

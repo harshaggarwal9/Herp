@@ -6,7 +6,6 @@ const router = express.Router();
 router.post("/create",authMiddleware,roleMiddleware(["admin"]),createChallan);
 router.post("/pay/:feeId",authMiddleware,roleMiddleware(["admin","parent","student"]),initiatePayment);
 router.post("/verify-payment",authMiddleware,verifyPayment);
-// router.get("/:studentId",authMiddleware,roleMiddleware(["admin","student","parent","teacher"]),checkfeestatus);
 router.get("/all",fetchAll);
 router.delete("/delete/:id",deleteChallan);
 export default router

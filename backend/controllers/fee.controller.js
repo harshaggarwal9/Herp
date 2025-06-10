@@ -30,7 +30,7 @@ export const initiatePayment = async (req, res) => {
     if (!fee) return res.status(404).json({ message: "Fee not found" });
 
     const options = {
-      amount: fee.amount * 100, // amount in paisa
+      amount: fee.amount * 100, 
       currency: "INR",
       receipt: `receipt_${fee._id}`,
       payment_capture: 1,
@@ -67,8 +67,6 @@ export const verifyPayment = async (req, res) => {
     .update(body)
     .digest("hex");
 
-  console.log("Expected Signature:", expectedSignature);
-
   if (expectedSignature !== razorpay_signature) {
     return res.status(400).json({ message: "Invalid signature" });
   }
@@ -78,8 +76,6 @@ export const verifyPayment = async (req, res) => {
     if (!fee) {
       return res.status(404).json({ message: "Fee record not found" });
     }
-
-    // Update status and paymentDetails
     fee.status = "Paid";
     fee.paymentDetails = {
       orderId: razorpay_order_id,
@@ -98,17 +94,6 @@ export const verifyPayment = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-// export const checkfeestatus=async(req,res)=>{
-//   const {id} = req.params;
-//   try {
-//     const student = await studentModel.findById(id);
-//     const fee = await Fee.findOne({student:student._id});
-//     res.status(200).json(fee);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ success: false, message: "internal server errror" });
-//   }
-// }
 export const fetchAll = async(req,res)=>{
   try {
     const PendingUser = await Fee.find({status:"Pending"}).populate(

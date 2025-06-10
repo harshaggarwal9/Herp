@@ -8,8 +8,6 @@ export default function CreateSubject() {
   const [name, setName] = useState("");
   const [allClasses, setAllClasses] = useState([]);
   const [selectedClasses, setSelectedClasses] = useState([]);
-
-  // Fetch classes on mount
   useEffect(() => {
     (async () => {
       try {

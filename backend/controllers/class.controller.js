@@ -2,11 +2,9 @@ import classModel from "../models/class.model.js";
 export const createClass = async (req,res)=>{
   const {className,section} = req.body;
   try {
-    // const student = await Student.findOne({RollNumber})
      const Class = await classModel.create({
           className,
           section,
-          // $push : student._id,
       });
       res.status(201).json({message: "Class created successfully", Class});
   } catch (error) {
@@ -21,7 +19,7 @@ export const fetchClasses = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Classes fetched successfully",
-      data: classDocs,   // ✅ add classDocs under a key like `data`
+      data: classDocs,  
     });
   } catch (error) {
     console.log(error);

@@ -11,15 +11,14 @@ const daysOfWeek = [
   'Saturday',
   'Sunday',
 ];
-
-const borderColors = [
-  'border-t-4 border-indigo-400',
-  'border-t-4 border-blue-400',
-  'border-t-4 border-pink-400',
-  'border-t-4 border-green-400',
-  'border-t-4 border-yellow-400',
-  'border-t-4 border-red-400',
-  'border-t-4 border-purple-400',
+const rowGradients = [
+  'bg-gradient-to-r from-rose-100 to-teal-100',
+  'bg-gradient-to-r from-green-100 to-yellow-100',
+  'bg-gradient-to-r from-sky-100 to-pink-100',
+  'bg-gradient-to-r from-indigo-100 to-blue-100',
+  'bg-gradient-to-r from-purple-100 to-fuchsia-100',
+  'bg-gradient-to-r from-orange-100 to-amber-100',
+  'bg-gradient-to-r from-lime-100 to-emerald-100',
 ];
 
 const TeacherTimeTable = () => {
@@ -73,26 +72,37 @@ const TeacherTimeTable = () => {
       ) : slots.length === 0 ? (
         <div className="text-center text-gray-300">No slots for {selectedDay}.</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {slots.map((slot, index) => {
-            const borderClass = borderColors[index % borderColors.length];
-            return (
-              <div
-                key={slot._id || index}
-                className={`bg-white text-gray-800 rounded-xl shadow-lg p-4 hover:shadow-xl transition-all duration-200 ${borderClass}`}
-              >
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-indigo-700">{slot.subject.name}</h3>
-                  <p className="text-sm">Class: {slot.class.Classname}</p>
-                  <p className="text-sm">Section: {slot.class.section}</p>
-                  <p className="text-sm">
-                    Time: {slot.startTime} - {slot.endTime}
-                  </p>
-                  <p className="text-sm">Day: {slot.day}</p>
-                </div>
-              </div>
-            );
-          })}
+        <div className="overflow-x-auto rounded-xl backdrop-blur-lg bg-white/10 p-4 shadow-xl">
+          <table className="min-w-full table-auto border-separate border-spacing-y-3">
+            <thead>
+              <tr className="text-sm bg-gradient-to-r from-purple-500 to-indigo-500 text-white uppercase tracking-wider rounded-t-xl">
+                <th className="px-4 py-3 text-left rounded-l-xl">Subject</th>
+                <th className="px-4 py-3 text-left">Class</th>
+                <th className="px-4 py-3 text-left">Section</th>
+                <th className="px-4 py-3 text-left">Time</th>
+                <th className="px-4 py-3 text-left rounded-r-xl">Day</th>
+              </tr>
+            </thead>
+            <tbody>
+              {slots.map((slot, index) => {
+                const gradientClass = rowGradients[index % rowGradients.length];
+                return (
+                  <tr
+                    key={slot._id || index}
+                    className={`text-gray-900 ${gradientClass} hover:scale-[1.02] hover:shadow-lg transition-all duration-200 rounded-xl`}
+                  >
+                    <td className="px-4 py-3 font-semibold">{slot.subject.name}</td>
+                    <td className="px-4 py-3">{slot.class.className}</td>
+                    <td className="px-4 py-3">{slot.class.section}</td>
+                    <td className="px-4 py-3">
+                      {slot.startTime} - {slot.endTime}
+                    </td>
+                    <td className="px-4 py-3">{slot.day}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

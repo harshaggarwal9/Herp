@@ -8,14 +8,11 @@ export default function StudentResults() {
 useEffect(() => {
     async function fetchData() {
       try {
-        // 1) Fetch all subjects for the logged‐in student
         const subjectsRes = await axios.get("/api/student/fetchSubjects");
-        // Expect: [ { _id, name }, … ]
         setSubjects(subjectsRes.data || []);
 
-        // 2) Fetch all result documents for that student (populated with exam & subject)
         const resultsRes = await axios.get("/api/result/fetch");
-        // Expect: [ { _id, subject: { _id, name }, exam: { _id, name, marks }, marks }, … ]
+    
         setResults(resultsRes.data || []);
         setLoading(false);
       } catch (err) {
@@ -81,8 +78,6 @@ useEffect(() => {
       </div>
     );
   }
-
-  // Group results by exam._id
   const examsMap = {};
   results.forEach((r) => {
     const examId = r.exam._id;
@@ -96,7 +91,6 @@ useEffect(() => {
   return (
     <div className="space-y-8 px-6 py-8">
       {examsArray.map(({ exam, results: resultList }) => {
-        // Determine which subjects are missing a result for this exam
         const submittedSubjectIds = new Set(
           resultList.map((r) => r.subject._id)
         );
@@ -153,7 +147,7 @@ useEffect(() => {
                   {/* Table Body */}
                   <tbody>
                     {subjects.map((subj) => {
-                      // Find the result object for this subject (if any)
+                
                       const resForSubj = resultList.find(
                         (r) => r.subject._id === subj._id
                       );

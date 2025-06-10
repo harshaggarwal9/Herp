@@ -21,12 +21,9 @@ const slotSchema = new mongoose.Schema({
     enum: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
     required: true
   },
-  startTime: { type: String, required: true },  // e.g. '09:00'
-  endTime:   { type: String, required: true }   // e.g. '09:45'
+  startTime: { type: String, required: true },  
+  endTime:   { type: String, required: true }  
 }, { timestamps: true });
-
-// ◆ Enforce “only one lecture per class/day/time”
-//    This creates a unique index across class, day, startTime.
 slotSchema.index(
   { class: 1, day: 1, startTime: 1 },
   { unique: true, name: 'unique_class_day_time' }

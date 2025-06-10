@@ -11,8 +11,6 @@ export default function AssignTeacher() {
   const [selectedTeacher, setSelectedTeacher] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
-
-  // fetch all teachers & classes on mount
   useEffect(() => {
     (async () => {
       try {
@@ -44,7 +42,6 @@ export default function AssignTeacher() {
         }
       );
       toast.success("✅ Teacher assigned successfully");
-      // reset form
       setSelectedTeacher("");
       setSelectedClass("");
       setSelectedSubject("");

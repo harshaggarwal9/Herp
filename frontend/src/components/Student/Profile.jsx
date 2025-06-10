@@ -7,7 +7,6 @@ function ProfileSection() {
   const {user} = useAuthStore();
   const id = user?._id;
   useEffect(() => {
-    // Fetch student profile data
     axios.get(`/api/student/profile/${id}`).then(res => setProfile(res.data)).catch(console.error);
   }, []);
 

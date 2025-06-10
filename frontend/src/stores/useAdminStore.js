@@ -1,16 +1,15 @@
-// src/store/adminStore.js
+
 import { create } from 'zustand';
 import axios from 'axios';
 
 const useAdminStore = create((set) => ({
-  // State
+
   pendingUsers: [],
   teachers: [],
   classes: [],
   notifications: [],
   fees: [],
 
-  // Actions
  fetchPendingUsers: async () => {
   const { data } = await axios.get('/api/admin/pending-users');
   const users = Array.isArray(data) ? data : data.users || [];
