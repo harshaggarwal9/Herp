@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../stores/useAuthStore";
 import { Link } from "react-router-dom";
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,17 +29,17 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-base-grey-200 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-base-200 px-4 sm:px-6 lg:px-8">
       <form
         onSubmit={handleSubmit}
-        className="card w-full max-w-lg shadow-2xl bg-base-100 p-12 space-y-8 rounded-lg"
+        className="card w-full max-w-md sm:max-w-lg shadow-2xl bg-base-100 p-6 sm:p-10 space-y-6 sm:space-y-8 rounded-lg"
       >
-        <h2 className="text-4xl font-extrabold text-center text-primary mb-4">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-primary mb-4">
           Login
         </h2>
 
-        <div className="form-control mb-6">
-          <label htmlFor="email" className="label mb-2">
+        <div className="form-control">
+          <label htmlFor="email" className="label mb-1">
             <span className="label-text font-medium">Email</span>
           </label>
           <input
@@ -53,8 +54,8 @@ const LoginPage = () => {
           />
         </div>
 
-        <div className="form-control mb-8">
-          <label htmlFor="password" className="label mb-2">
+        <div className="form-control">
+          <label htmlFor="password" className="label mb-1">
             <span className="label-text font-medium">Password</span>
           </label>
           <input
@@ -76,9 +77,13 @@ const LoginPage = () => {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
-        <Link to="/signup" className="text-blue-600 hover:underline">
-          Don't have an account?
-        </Link>
+
+        <p className="text-center text-sm text-gray-600">
+          Don't have an account?{" "}
+          <Link to="/signup" className="text-blue-600 hover:underline">
+            Sign up
+          </Link>
+        </p>
       </form>
     </div>
   );

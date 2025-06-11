@@ -15,12 +15,12 @@ function SignUp() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-base-grey-200 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-base-200 px-4 sm:px-6 lg:px-8">
       <form
         onSubmit={handleSubmit}
         className="card w-full max-w-md shadow-xl bg-base-100 p-6 sm:p-8 space-y-5 rounded-lg"
       >
-        <h2 className="text-3xl font-bold text-center text-primary mb-2">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center text-primary mb-2">
           Sign Up
         </h2>
 
@@ -98,7 +98,10 @@ function SignUp() {
           {loading ? "Signing Up..." : "Sign Up"}
         </button>
 
-        <Link to="/" className="text-blue-600 hover:underline text-center block text-sm">
+        <Link
+          to="/"
+          className="text-blue-600 hover:underline text-center block text-sm"
+        >
           Already have an account?
         </Link>
       </form>
