@@ -53,9 +53,13 @@ export default function CreateNotification() {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-base-100 shadow-lg rounded-2xl">
-      <h2 className="text-2xl font-bold mb-4">Create Notification</h2>
+    <div className="max-w-xl w-full mx-auto p-4 sm:p-6 bg-base-100 shadow-lg rounded-2xl">
+      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center sm:text-left">
+        Create Notification
+      </h2>
+
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Title */}
         <div>
           <label className="label">
             <span className="label-text">Title</span>
@@ -70,6 +74,7 @@ export default function CreateNotification() {
           />
         </div>
 
+        {/* Message */}
         <div>
           <label className="label">
             <span className="label-text">Message</span>
@@ -84,9 +89,10 @@ export default function CreateNotification() {
           />
         </div>
 
+        {/* Role Selection */}
         <div>
           <span className="label-text font-medium">Send To:</span>
-          <div className="flex space-x-4 mt-2">
+          <div className="flex flex-wrap gap-4 mt-2">
             {roleOptions.map(opt => (
               <label key={opt.value} className="flex items-center space-x-2">
                 <input
@@ -96,12 +102,13 @@ export default function CreateNotification() {
                   onChange={() => handleCheckbox(opt.value)}
                   disabled={loading}
                 />
-                <span>{opt.label}</span>
+                <span className="text-sm">{opt.label}</span>
               </label>
             ))}
           </div>
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           className={`btn btn-primary w-full mt-4 ${loading ? 'loading' : ''}`}

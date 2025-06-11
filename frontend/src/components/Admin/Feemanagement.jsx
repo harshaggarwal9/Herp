@@ -4,7 +4,12 @@ import axios from "axios";
 export default function FeeManagement() {
   const [fees, setFees] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [formData, setFormData] = useState({ RollNumber: "", amount: 0, dueDate: "" });
+  const [formData, setFormData] = useState({
+    RollNumber: "",
+    amount: 0,
+    dueDate: "",
+  });
+
   const fetchFees = async () => {
     try {
       const res = await axios.get("/api/fees/all");
@@ -46,9 +51,9 @@ export default function FeeManagement() {
   };
 
   return (
-    <div className="p-6 bg-base-100 rounded-lg shadow">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-semibold">Fee Management</h2>
+    <div className="p-4 sm:p-6 bg-base-100 rounded-lg shadow max-w-5xl mx-auto">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-2 sm:gap-0">
+        <h2 className="text-xl sm:text-2xl font-semibold">Fee Management</h2>
         <button className="btn btn-primary" onClick={() => setModalOpen(true)}>
           Create Challan
         </button>
@@ -56,7 +61,7 @@ export default function FeeManagement() {
 
       {/* Fee table */}
       <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
+        <table className="table table-zebra w-full text-sm">
           <thead>
             <tr>
               <th>Roll No</th>
@@ -95,8 +100,8 @@ export default function FeeManagement() {
 
       {/* Modal */}
       {modalOpen && (
-        <div className="modal modal-open">
-          <div className="modal-box">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white w-full max-w-md rounded-lg shadow-lg p-6">
             <h3 className="font-bold text-lg mb-4">Create Fee Challan</h3>
             <form onSubmit={submitChallan} className="space-y-4">
               <div>
@@ -138,8 +143,12 @@ export default function FeeManagement() {
                   required
                 />
               </div>
-              <div className="modal-action">
-                <button type="button" className="btn" onClick={() => setModalOpen(false)}>
+              <div className="flex justify-end gap-2 pt-4">
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setModalOpen(false)}
+                >
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">

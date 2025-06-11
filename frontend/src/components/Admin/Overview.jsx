@@ -8,13 +8,13 @@ import {
 } from "lucide-react";
 
 const OverviewCard = ({ title, value, Icon, color }) => (
-  <div className="bg-white rounded-2xl shadow-md p-4 flex items-center space-x-4 border">
+  <div className="bg-white rounded-2xl shadow-md p-4 flex items-center space-x-4 border w-full">
     <div className={`p-3 rounded-full ${color} text-white`}>
       <Icon size={24} />
     </div>
     <div>
       <h3 className="text-sm font-medium text-gray-500">{title}</h3>
-      <p className="text-xl font-semibold text-gray-800">{value}</p>
+      <p className="text-xl font-semibold text-gray-800 break-words">{value}</p>
     </div>
   </div>
 );
@@ -51,7 +51,7 @@ const Overview = () => {
   }, []);
 
   return (
-    <div className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="px-4 sm:px-6 py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <OverviewCard title="Total Users" value={stats.totalUsers} Icon={Users} color="bg-blue-500" />
       <OverviewCard title="Pending Approvals" value={stats.pendingUsers} Icon={Hourglass} color="bg-yellow-500" />
       <OverviewCard title="Total Classes" value={stats.totalClasses} Icon={BookOpen} color="bg-green-500" />

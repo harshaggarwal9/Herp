@@ -5,8 +5,8 @@ import axios from "axios";
 
 export default function UserApproval() {
   const { pendingUsers, fetchPendingUsers, approveUser } = useAdminStore();
-  const [selected, setSelected] = useState(null);    // { user, role }
-  const [formData, setFormData] = useState({});      // dynamic form fields
+  const [selected, setSelected] = useState(null);
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     fetchPendingUsers();
@@ -14,7 +14,7 @@ export default function UserApproval() {
 
   const openModal = (user) => {
     setSelected(user);
-    setFormData({});  // reset
+    setFormData({});
     document.getElementById("approval-modal").checked = true;
   };
 
@@ -27,7 +27,7 @@ export default function UserApproval() {
     e.preventDefault();
     const { _id: id, role } = selected;
     let url, payload;
-    
+
     switch (role) {
       case "teacher":
         url = `/api/teacher/create/${id}`;
@@ -37,7 +37,6 @@ export default function UserApproval() {
           qualifications: formData.qualifications,
         };
         break;
-
       case "student":
         url = `/api/student/create/${id}`;
         payload = {
@@ -47,18 +46,15 @@ export default function UserApproval() {
           phoneNumber: formData.phoneNumber,
         };
         break;
-
       case "parent":
         url = `/api/parent/create/${id}`;
         payload = { phone: formData.phone };
         break;
-
       default:
         return;
     }
-    await axios.post(url, payload,{
-      withCredentials : true
-    });
+
+    await axios.post(url, payload, { withCredentials: true });
     await approveUser(id, "approve");
     closeModal();
   };
@@ -68,14 +64,14 @@ export default function UserApproval() {
 
   return (
     <>
-      <div className="card bg-base-100 shadow-xl rounded-lg p-6 max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-6 text-center">
+      <div className="card bg-base-100 shadow-xl rounded-lg p-4 sm:p-6 max-w-6xl mx-auto">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-center">
           Pending Users
         </h2>
 
         {pendingUsers.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="table table-zebra w-full">
+            <table className="table table-zebra w-full text-sm sm:text-base">
               <thead className="bg-primary text-primary-content">
                 <tr>
                   <th className="p-3">Name</th>
@@ -87,7 +83,7 @@ export default function UserApproval() {
                 {pendingUsers.map((u) => (
                   <tr key={u._id}>
                     <td className="p-3 font-medium">{u.name}</td>
-                    <td className="p-3 text-sm text-gray-600">{u.email}</td>
+                    <td className="p-3 text-gray-600 break-all">{u.email}</td>
                     <td className="p-3 text-center space-x-2">
                       <button
                         onClick={() => openModal(u)}
@@ -114,11 +110,11 @@ export default function UserApproval() {
         )}
       </div>
 
-      {/* DaisyUI Modal */}
+      {/* Modal */}
       <input type="checkbox" id="approval-modal" className="modal-toggle" />
       <div className="modal">
-        <div className="modal-box w-11/12 max-w-xl">
-          <h3 className="font-bold text-lg mb-4">
+        <div className="modal-box w-full max-w-md">
+          <h3 className="font-bold text-lg mb-4 text-center">
             Approve as {selected?.role}
           </h3>
 
@@ -178,7 +174,7 @@ export default function UserApproval() {
                     required
                   />
                 </div>
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1">
                     <label className="label">
                       <span className="label-text">Class Name</span>
@@ -210,7 +206,7 @@ export default function UserApproval() {
                     name="phoneNumber"
                     onChange={onChange}
                     className="input input-bordered w-full"
-                    placeholder="+1-234-567-890"
+                    placeholder="+91-9876543210"
                     required
                   />
                 </div>
@@ -226,21 +222,21 @@ export default function UserApproval() {
                   name="phone"
                   onChange={onChange}
                   className="input input-bordered w-full"
-                  placeholder="+1-234-567-890"
+                  placeholder="+91-9876543210"
                   required
                 />
               </div>
             )}
 
-            <div className="modal-action">
+            <div className="modal-action flex flex-col sm:flex-row justify-end gap-2">
               <button
                 type="button"
                 onClick={closeModal}
-                className="btn btn-ghost"
+                className="btn btn-ghost w-full sm:w-auto"
               >
                 Cancel
               </button>
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary w-full sm:w-auto">
                 Confirm
               </button>
             </div>

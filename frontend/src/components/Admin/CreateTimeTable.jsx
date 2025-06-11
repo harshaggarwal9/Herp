@@ -20,6 +20,7 @@ export default function CreateSlot() {
   const [day, setDay] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+
   useEffect(() => {
     (async () => {
       try {
@@ -35,6 +36,7 @@ export default function CreateSlot() {
       }
     })();
   }, []);
+
   const teacherObj = teachers.find((t) => t._id === selectedTeacher) || null;
   const filteredClasses = teacherObj
     ? classes.filter((c) => teacherObj.classes?.includes(c._id))
@@ -78,13 +80,13 @@ export default function CreateSlot() {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-4 bg-indigo-50 shadow-md rounded-lg">
-      <h1 className="text-2xl font-semibold text-indigo-700 mb-4 flex items-center space-x-2">
+    <div className="max-w-lg w-full mx-auto px-3 sm:px-4 py-4 bg-indigo-50 shadow-md rounded-lg">
+      <h1 className="text-xl sm:text-2xl font-semibold text-indigo-700 mb-4 flex items-center space-x-2">
         <Calendar size={24} />
         <span>Create Timetable Slot</span>
       </h1>
 
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-3">
         {/* Teacher Select */}
         <div className="form-control w-full">
           <label className="label p-0 mb-1">
@@ -101,9 +103,7 @@ export default function CreateSlot() {
               setSelectedSubject("");
             }}
           >
-            <option value="" className="text-indigo-700">
-              Select a teacher…
-            </option>
+            <option value="">Select a teacher…</option>
             {teachers.map((t) => (
               <option key={t._id} value={t._id}>
                 {t.userId.name} ({t.userId.email})
@@ -125,7 +125,7 @@ export default function CreateSlot() {
             onChange={(e) => setSelectedClass(e.target.value)}
             disabled={!selectedTeacher}
           >
-            <option value="" className="text-indigo-700">
+            <option value="">
               {selectedTeacher ? "Select a class…" : "Select teacher first"}
             </option>
             {filteredClasses.map((c) => (
@@ -136,7 +136,7 @@ export default function CreateSlot() {
           </select>
         </div>
 
-        {/* Subject Select (filtered by teacher’s subjects) */}
+        {/* Subject Select */}
         <div className="form-control w-full">
           <label className="label p-0 mb-1">
             <span className="label-text text-indigo-600 flex items-center text-sm">
@@ -149,10 +149,8 @@ export default function CreateSlot() {
             onChange={(e) => setSelectedSubject(e.target.value)}
             disabled={!selectedTeacher}
           >
-            <option value="" className="text-indigo-700">
-              {selectedTeacher
-                ? "Select a subject…"
-                : "Select teacher first"}
+            <option value="">
+              {selectedTeacher ? "Select a subject…" : "Select teacher first"}
             </option>
             {teacherObj?.subjects?.map((sub) => (
               <option key={sub} value={sub}>
@@ -174,9 +172,7 @@ export default function CreateSlot() {
             value={day}
             onChange={(e) => setDay(e.target.value)}
           >
-            <option value="" className="text-indigo-700">
-              Select a day…
-            </option>
+            <option value="">Select a day…</option>
             {[
               "Monday",
               "Tuesday",
@@ -193,9 +189,9 @@ export default function CreateSlot() {
           </select>
         </div>
 
-        {/* Start Time & End Time in Two Columns */}
-        <div className="flex space-x-2">
-          <div className="form-control w-1/2">
+        {/* Time Inputs - Responsive */}
+        <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0">
+          <div className="form-control w-full">
             <label className="label p-0 mb-1">
               <span className="label-text text-indigo-600 flex items-center text-sm">
                 <Clock size={14} className="mr-1" /> Start Time
@@ -208,7 +204,7 @@ export default function CreateSlot() {
               onChange={(e) => setStartTime(e.target.value)}
             />
           </div>
-          <div className="form-control w-1/2">
+          <div className="form-control w-full">
             <label className="label p-0 mb-1">
               <span className="label-text text-indigo-600 flex items-center text-sm">
                 <Clock size={14} className="mr-1" /> End Time

@@ -32,47 +32,49 @@ export default function CreateClass() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-base-100 shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold text-center mb-4">Add New Class</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Class Name</span>
-          </label>
-          <input
-            type="text"
-            placeholder="e.g. 10th Grade"
-            value={className}
-            onChange={(e) => setClassName(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-        </div>
+    <div className="px-4 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-md mx-auto p-6 bg-base-100 shadow-lg rounded-lg w-full">
+        <h2 className="text-2xl font-bold text-center mb-6">Add New Class</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Class Name</span>
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. 10th Grade"
+              value={className}
+              onChange={(e) => setClassName(e.target.value)}
+              className="input input-bordered w-full"
+              required
+            />
+          </div>
 
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Section</span>
-          </label>
-          <input
-            type="text"
-            placeholder="e.g. A"
-            value={section}
-            onChange={(e) => setSection(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-        </div>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Section</span>
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. A"
+              value={section}
+              onChange={(e) => setSection(e.target.value)}
+              className="input input-bordered w-full"
+              required
+            />
+          </div>
 
-        <div className="form-control">
-          <button
-            type="submit"
-            className={`btn btn-primary w-full ${loading ? 'loading' : ''}`}
-            disabled={loading}
-          >
-            {loading ? 'Creating...' : 'Create Class'}
-          </button>
-        </div>
-      </form>
+          <div className="form-control w-full">
+            <button
+              type="submit"
+              className={`btn btn-primary w-full ${loading ? 'loading' : ''}`}
+              disabled={loading}
+            >
+              {loading ? 'Creating...' : 'Create Class'}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
