@@ -12,6 +12,12 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signup(name, email, password, role);
+
+    // Reset form
+    setName("");
+    setEmail("");
+    setPassword("");
+    setRole("");
   };
 
   return (

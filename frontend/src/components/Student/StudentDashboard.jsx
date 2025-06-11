@@ -4,9 +4,10 @@ import {
   User,
   CalendarClock,
   FileText,
-  CreditCard,
   Bell,
   LogOutIcon,
+  Menu,
+  X,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ProfileSection from "./Profile";
@@ -17,6 +18,8 @@ import { toast } from "react-hot-toast";
 
 export default function StudentDashboard() {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("profile");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const tabs = [
     { id: "profile", label: "Profile", icon: <User size={18} /> },
@@ -25,8 +28,6 @@ export default function StudentDashboard() {
     { id: "notifications", label: "Notifications", icon: <Bell size={18} /> },
     { id: "logout", label: "Logout", icon: <LogOutIcon size={18} /> },
   ];
-
-  const [activeTab, setActiveTab] = useState("profile");
 
   const renderContent = () => {
     switch (activeTab) {
@@ -54,16 +55,30 @@ export default function StudentDashboard() {
 
   return (
     <div className="flex h-screen flex-col md:flex-row">
+      {/* Top Bar (Mobile only) */}
+      <div className="md:hidden flex justify-between items-center bg-purple-600 text-white px-4 py-3 shadow-md">
+        <h2 className="text-xl font-bold">Student Dashboard</h2>
+        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="focus:outline-none">
+          {sidebarOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
+
       {/* Sidebar */}
-      <aside className="w-full md:w-64 bg-gradient-to-b from-purple-600 to-pink-500 shadow-lg flex flex-col text-white md:fixed md:left-0 md:h-full md:z-10">
-        <div className="p-6 border-b border-pink-300">
+      <aside
+        className={`w-full md:w-64 bg-gradient-to-b from-purple-600 to-pink-500 shadow-lg text-white flex-col z-20
+          ${sidebarOpen ? 'flex' : 'hidden'} md:flex absolute md:relative md:h-full`}
+      >
+        <div className="p-6 border-b border-pink-300 hidden md:block">
           <h2 className="text-2xl font-bold">Student Dashboard</h2>
         </div>
-        <nav className="flex-1 p-4 md:block">
+        <nav className="flex-1 p-4">
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                setActiveTab(tab.id);
+                setSidebarOpen(false); // auto-close on mobile
+              }}
               className={`w-full flex items-center gap-3 py-3 px-4 rounded-lg mb-3 transition-colors
                 ${
                   activeTab === tab.id
@@ -79,7 +94,7 @@ export default function StudentDashboard() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 bg-gradient-to-br from-pink-50 to-purple-50 p-8 md:ml-64 md:p-6 overflow-auto">
+      <main className="flex-1 bg-gradient-to-br from-pink-50 to-purple-50 p-4 sm:p-6 md:ml-64 overflow-auto">
         {renderContent()}
       </main>
 
