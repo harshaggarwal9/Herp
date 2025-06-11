@@ -53,13 +53,13 @@ export default function StudentDashboard() {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen flex-col md:flex-row">
       {/* Sidebar */}
-      <aside className="w-64 bg-gradient-to-b from-purple-600 to-pink-500 shadow-lg flex flex-col text-white">
+      <aside className="w-full md:w-64 bg-gradient-to-b from-purple-600 to-pink-500 shadow-lg flex flex-col text-white md:fixed md:left-0 md:h-full md:z-10">
         <div className="p-6 border-b border-pink-300">
           <h2 className="text-2xl font-bold">Student Dashboard</h2>
         </div>
-        <nav className="flex-1 p-4">
+        <nav className="flex-1 p-4 md:block">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -79,7 +79,7 @@ export default function StudentDashboard() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 bg-gradient-to-br from-pink-50 to-purple-50 p-8 overflow-auto">
+      <main className="flex-1 bg-gradient-to-br from-pink-50 to-purple-50 p-8 md:ml-64 md:p-6 overflow-auto">
         {renderContent()}
       </main>
 

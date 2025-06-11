@@ -3,14 +3,9 @@ import axios from 'axios';
 import { Calendar } from 'lucide-react';
 
 const daysOfWeek = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday',
+  'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
 ];
+
 const rowGradients = [
   'bg-gradient-to-r from-rose-100 to-teal-100',
   'bg-gradient-to-r from-green-100 to-yellow-100',
@@ -46,13 +41,13 @@ const TeacherTimeTable = () => {
   }, [selectedDay]);
 
   return (
-    <div className="p-6 min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-3xl font-semibold">My Timetable</h2>
+    <div className="p-4 sm:p-6 min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 space-y-4 sm:space-y-0">
+        <h2 className="text-2xl sm:text-3xl font-semibold">My Timetable</h2>
         <div className="flex items-center space-x-2">
-          <Calendar className="w-6 h-6 text-white" />
+          <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           <select
-            className="select select-bordered bg-slate-800 border-blue-500 text-white"
+            className="select select-bordered bg-slate-800 border-blue-500 text-white text-sm sm:text-base"
             value={selectedDay}
             onChange={(e) => setSelectedDay(e.target.value)}
           >
@@ -73,14 +68,14 @@ const TeacherTimeTable = () => {
         <div className="text-center text-gray-300">No slots for {selectedDay}.</div>
       ) : (
         <div className="overflow-x-auto rounded-xl backdrop-blur-lg bg-white/10 p-4 shadow-xl">
-          <table className="min-w-full table-auto border-separate border-spacing-y-3">
+          <table className="min-w-[600px] w-full table-auto border-separate border-spacing-y-3">
             <thead>
-              <tr className="text-sm bg-gradient-to-r from-purple-500 to-indigo-500 text-white uppercase tracking-wider rounded-t-xl">
-                <th className="px-4 py-3 text-left rounded-l-xl">Subject</th>
-                <th className="px-4 py-3 text-left">Class</th>
-                <th className="px-4 py-3 text-left">Section</th>
-                <th className="px-4 py-3 text-left">Time</th>
-                <th className="px-4 py-3 text-left rounded-r-xl">Day</th>
+              <tr className="text-sm sm:text-base bg-gradient-to-r from-purple-500 to-indigo-500 text-white uppercase tracking-wider rounded-t-xl">
+                <th className="px-3 py-2 sm:px-4 sm:py-3 text-left rounded-l-xl">Subject</th>
+                <th className="px-3 py-2 sm:px-4 sm:py-3 text-left">Class</th>
+                <th className="px-3 py-2 sm:px-4 sm:py-3 text-left">Section</th>
+                <th className="px-3 py-2 sm:px-4 sm:py-3 text-left">Time</th>
+                <th className="px-3 py-2 sm:px-4 sm:py-3 text-left rounded-r-xl">Day</th>
               </tr>
             </thead>
             <tbody>
@@ -91,13 +86,13 @@ const TeacherTimeTable = () => {
                     key={slot._id || index}
                     className={`text-gray-900 ${gradientClass} hover:scale-[1.02] hover:shadow-lg transition-all duration-200 rounded-xl`}
                   >
-                    <td className="px-4 py-3 font-semibold">{slot.subject.name}</td>
-                    <td className="px-4 py-3">{slot.class.className}</td>
-                    <td className="px-4 py-3">{slot.class.section}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-3 py-2 sm:px-4 sm:py-3 font-semibold">{slot.subject.name}</td>
+                    <td className="px-3 py-2 sm:px-4 sm:py-3">{slot.class.className}</td>
+                    <td className="px-3 py-2 sm:px-4 sm:py-3">{slot.class.section}</td>
+                    <td className="px-3 py-2 sm:px-4 sm:py-3">
                       {slot.startTime} - {slot.endTime}
                     </td>
-                    <td className="px-4 py-3">{slot.day}</td>
+                    <td className="px-3 py-2 sm:px-4 sm:py-3">{slot.day}</td>
                   </tr>
                 );
               })}

@@ -44,8 +44,8 @@ export default function GetNotifications() {
 
   if (!notifs.length)
     return (
-      <div className="alert alert-info shadow-lg mt-6 mx-6 bg-slate-800 text-white">
-        <div>
+      <div className="alert alert-info shadow-lg mt-6 mx-4 sm:mx-6 bg-slate-800 text-white">
+        <div className="flex items-center gap-3">
           <Bell className="text-blue-400" size={24} />
           <span>No notifications available</span>
         </div>
@@ -63,7 +63,7 @@ export default function GetNotifications() {
   ];
 
   return (
-    <div className="p-6 min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white space-y-4">
+    <div className="p-4 sm:p-6 min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white space-y-4">
       {notifs.map((n, idx) => {
         const borderGradient = gradientBorders[idx % gradientBorders.length];
         return (
@@ -73,20 +73,21 @@ export default function GetNotifications() {
           >
             <div className={`absolute top-0 left-0 h-full w-2 ${borderGradient}`} />
 
-            <div className="p-4 pl-6 flex items-start space-x-4">
-              <div className="p-2 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-lg text-white">
+            <div className="p-4 pl-6 flex flex-col sm:flex-row sm:items-start sm:space-x-4 space-y-3 sm:space-y-0">
+              <div className="p-2 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-lg text-white self-start">
                 <Bell size={24} />
               </div>
 
               <div className="flex-1">
-                <h4 className="text-xl font-semibold text-indigo-700">
+                <h4 className="text-lg sm:text-xl font-semibold text-indigo-700 break-words">
                   {n.title}
                 </h4>
-                <p className="text-gray-700 mt-1">{n.message}</p>
+                <p className="text-gray-700 mt-1 text-sm sm:text-base break-words">
+                  {n.message}
+                </p>
               </div>
 
-              {/* Stylish Glassy Timestamp */}
-              <div className="px-3 py-1 text-xs rounded-xl shadow-md backdrop-blur-md bg-gradient-to-br from-purple-400/30 via-pink-300/30 to-yellow-200/30 border border-white/20 text-gray-900 font-semibold whitespace-nowrap">
+              <div className="self-end sm:self-center px-3 py-1 text-xs rounded-xl shadow-md backdrop-blur-md bg-gradient-to-br from-purple-400/30 via-pink-300/30 to-yellow-200/30 border border-white/20 text-gray-900 font-semibold whitespace-nowrap">
                 {new Date(n.createdAt).toLocaleString()}
               </div>
             </div>

@@ -17,6 +17,7 @@ export default function CreateExamForm() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
+
   useEffect(() => {
     if (!userId) return;
     axios.get(`/api/teacher/fetch/${userId}`)
@@ -25,15 +26,8 @@ export default function CreateExamForm() {
       .finally(() => setLoadingTeacher(false));
   }, [userId]);
 
-  if (loadingTeacher) return (
-    <div className="flex justify-center items-center h-64">
-      <span className="loading loading-spinner loading-lg"></span>
-    </div>
-  );
-
-  if (!teacher) return <p className="text-center text-red-500">Unable to load teacher data.</p>;
-  const subjectOptions = teacher.subjects || []; 
-  const classOptions = teacher.classes || [];   
+  const subjectOptions = teacher?.subjects || [];
+  const classOptions = teacher?.classes || [];
 
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -58,8 +52,8 @@ export default function CreateExamForm() {
         name: formData.name,
         date: formData.date,
         marks: Number(formData.marks),
-        subject: formData.subject,  
-        classes: formData.classes    
+        subject: formData.subject,
+        classes: formData.classes
       });
       setMessage({ type: "success", text: "Exam created successfully!" });
       setFormData({ name: "", date: "", marks: "", subject: "", classes: [] });
@@ -71,11 +65,23 @@ export default function CreateExamForm() {
     }
   };
 
+  if (loadingTeacher) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  if (!teacher) {
+    return <p className="text-center text-red-500">Unable to load teacher data.</p>;
+  }
+
   return (
-    <div className="max-w-xl mx-auto p-4">
+    <div className="max-w-2xl mx-auto px-4 py-6">
       <div className="card bg-base-100 shadow-lg">
         <div className="card-body space-y-6">
-          <h2 className="card-title text-2xl">Create New Exam</h2>
+          <h2 className="card-title text-2xl text-center md:text-left">Create New Exam</h2>
 
           {message && (
             <div className={`alert ${message.type === "success" ? "alert-success" : "alert-error"}`}>
@@ -83,7 +89,7 @@ export default function CreateExamForm() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {/* Exam Name */}
             <div className="form-control">
               <label className="label"><span className="label-text">Exam Name</span></label>
@@ -92,14 +98,14 @@ export default function CreateExamForm() {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="input input-bordered"
+                className="input input-bordered w-full"
                 placeholder="Enter exam name"
                 required
               />
             </div>
 
             {/* Date & Marks */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="form-control">
                 <label className="label"><span className="label-text">Date</span></label>
                 <input
@@ -107,7 +113,7 @@ export default function CreateExamForm() {
                   name="date"
                   value={formData.date}
                   onChange={handleInputChange}
-                  className="input input-bordered"
+                  className="input input-bordered w-full"
                   required
                 />
               </div>
@@ -118,7 +124,7 @@ export default function CreateExamForm() {
                   name="marks"
                   value={formData.marks}
                   onChange={handleInputChange}
-                  className="input input-bordered"
+                  className="input input-bordered w-full"
                   placeholder="Max marks"
                   required
                 />
@@ -132,12 +138,12 @@ export default function CreateExamForm() {
                 name="subject"
                 value={formData.subject}
                 onChange={handleInputChange}
-                className="select select-bordered"
+                className="select select-bordered w-full"
                 required
               >
                 <option value="" disabled>Select subject</option>
                 {subjectOptions.map(sub => (
-                  <option key={sub} value={sub}>{sub}</option> 
+                  <option key={sub} value={sub}>{sub}</option>
                 ))}
               </select>
             </div>
@@ -145,16 +151,16 @@ export default function CreateExamForm() {
             {/* Classes */}
             <div className="form-control">
               <label className="label"><span className="label-text">Classes</span></label>
-              <div className="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto border rounded p-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-36 overflow-y-auto border rounded p-3">
                 {classOptions.map(c => (
-                  <label key={c._id} className="cursor-pointer flex items-center">
+                  <label key={c._id} className="flex items-center gap-2 text-sm">
                     <input
                       type="checkbox"
                       checked={formData.classes.includes(c._id)}
                       onChange={() => handleMultiChange(c._id)}
-                      className="checkbox checkbox-secondary mr-2"
+                      className="checkbox checkbox-secondary"
                     />
-                    <span>{`${c.className} ${c.section}`}</span>
+                    {`${c.className} ${c.section}`}
                   </label>
                 ))}
               </div>
@@ -164,9 +170,11 @@ export default function CreateExamForm() {
             <div className="form-control mt-4">
               <button
                 type="submit"
-                className={`btn btn-primary ${submitting ? "loading" : ""}`}
+                className={`btn btn-primary w-full ${submitting ? "loading" : ""}`}
                 disabled={submitting}
-              >{submitting ? "Creating..." : "Create Exam"}</button>
+              >
+                {submitting ? "Creating..." : "Create Exam"}
+              </button>
             </div>
           </form>
         </div>

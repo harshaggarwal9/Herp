@@ -31,16 +31,19 @@ export default function TeacherDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white p-6">
-      <h1 className="text-3xl font-bold mb-4">Teacher Dashboard</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white px-4 py-6">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-center sm:text-left">
+        Teacher Dashboard
+      </h1>
 
-      <div className="flex gap-4 border-b border-slate-400 mb-6">
+      {/* Responsive Tabs */}
+      <div className="flex flex-wrap sm:flex-nowrap gap-3 sm:gap-4 border-b border-slate-400 mb-6 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-slate-700">
         {tabs.map(({ label, path, icon }) => (
           <NavLink
             key={path}
             to={path}
             className={({ isActive }) =>
-              `px-4 py-2 text-sm font-medium flex items-center transition-all duration-200 ${
+              `flex-shrink-0 whitespace-nowrap px-3 py-2 text-sm font-medium flex items-center rounded-md transition-all duration-200 ${
                 isActive
                   ? "border-b-2 border-blue-400 text-blue-300"
                   : "text-slate-300 hover:text-white"
@@ -52,17 +55,20 @@ export default function TeacherDashboard() {
           </NavLink>
         ))}
 
-        {/* Log-out Button */}
+        {/* Logout Button */}
         <button
           onClick={() => setShowLogoutModal(true)}
-          className="px-4 py-2 text-sm font-medium flex items-center text-red-500 hover:text-red-600 transition-all"
+          className="flex-shrink-0 whitespace-nowrap px-3 py-2 text-sm font-medium flex items-center text-red-500 hover:text-red-600 transition-all"
         >
           <LogOutIcon className="inline mr-1" />
           Log-out
         </button>
       </div>
 
-      <Outlet />
+      {/* Page Content */}
+      <div className="w-full">
+        <Outlet />
+      </div>
 
       {/* Logout Modal */}
       {showLogoutModal && (
@@ -71,7 +77,7 @@ export default function TeacherDashboard() {
             <h3 className="font-bold text-lg">Confirm Logout</h3>
             <p className="py-4">Are you sure you want to log out?</p>
             <div className="modal-action">
-              <form method="dialog" className="flex gap-2">
+              <form method="dialog" className="flex gap-2 flex-wrap">
                 <button
                   className="btn bg-gray-700 hover:bg-gray-600 text-white border-none"
                   onClick={() => setShowLogoutModal(false)}

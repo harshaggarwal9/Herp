@@ -6,6 +6,8 @@ import {
   FileText,
   Bell,
   LogOutIcon,
+  Menu,
+  X,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ProfileSection from "./profile";
@@ -13,6 +15,7 @@ import FeePayment from "./Fees";
 import GetNotifications2 from "../getNotification2";
 import { toast } from "react-hot-toast";
 import ShowResult from "./ShowResult.jsx";
+
 export default function ParentDashboard() {
   const navigate = useNavigate();
 
@@ -25,6 +28,7 @@ export default function ParentDashboard() {
   ];
 
   const [activeTab, setActiveTab] = useState("profile");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     axios.post('/api/auth/logout', {}, { withCredentials: true });
@@ -39,17 +43,9 @@ export default function ParentDashboard() {
       case "fees":
         return <FeePayment />;
       case "results":
-        return (
-          <h1 className="text-3xl font-semibold text-gray-700">
-            <ShowResult/>
-          </h1>
-        );
+        return <ShowResult />;
       case "notifications":
-        return (
-          <h1 className="text-3xl font-semibold text-gray-700">
-            <GetNotifications2 />
-          </h1>
-        );
+        return <GetNotifications2 />;
       case "log-out":
         window.logout_modal.showModal();
         return null;
@@ -59,18 +55,33 @@ export default function ParentDashboard() {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex flex-col md:flex-row h-screen">
+      {/* Mobile Nav Toggle */}
+      <div className="md:hidden flex justify-between items-center bg-green-600 text-white px-4 py-3 shadow-md">
+        <h2 className="text-lg font-semibold">Parent Dashboard</h2>
+        <button onClick={() => setMenuOpen(!menuOpen)} className="focus:outline-none">
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
       {/* Sidebar */}
-      <aside className="w-64 bg-gradient-to-b from-green-600 to-blue-500 shadow-lg flex flex-col text-white">
-        <div className="p-6 border-b border-blue-300">
-          <h2 className="text-2xl font-bold">Parent Dashboard</h2>
+      <aside
+        className={`${
+          menuOpen ? "block" : "hidden"
+        } md:block w-full md:w-64 bg-gradient-to-b from-green-600 to-blue-500 text-white md:h-full shadow-lg z-10`}
+      >
+        <div className="p-4 border-b border-blue-300 md:block">
+          <h2 className="text-2xl font-bold hidden md:block">Parent Dashboard</h2>
         </div>
-        <nav className="flex-1 p-4">
+        <nav className="p-4 space-y-2">
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`w-full flex items-center gap-3 py-3 px-4 rounded-lg mb-3 transition-colors
+              onClick={() => {
+                setActiveTab(tab.id);
+                setMenuOpen(false);
+              }}
+              className={`w-full flex items-center gap-3 py-3 px-4 rounded-lg transition-all
                 ${
                   activeTab === tab.id
                     ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
@@ -85,7 +96,7 @@ export default function ParentDashboard() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 bg-gradient-to-br from-blue-50 to-green-50 p-8 overflow-auto">
+      <main className="flex-1 bg-gradient-to-br from-blue-50 to-green-50 p-4 md:p-8 overflow-auto">
         {renderContent()}
       </main>
 

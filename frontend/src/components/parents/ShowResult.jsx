@@ -37,7 +37,7 @@ export default function ShowResult() {
       try {
         const [subjectRes, resultRes] = await Promise.all([
           axios.post("/api/parent/subjects", { id: selectedStudent }),
-          axios.post("/api/parent/results", { id: selectedStudent}),
+          axios.post("/api/parent/results", { id: selectedStudent }),
         ]);
 
         setSubjects(subjectRes.data || []);
@@ -67,15 +67,15 @@ export default function ShowResult() {
   const examsArray = Object.values(examsMap);
 
   return (
-    <div className="space-y-6 px-6 py-8">
+    <div className="space-y-6 px-4 py-6 sm:px-6 md:px-12">
       {/* Dropdown */}
-      <div className="mb-6">
-        <label className="block text-lg font-semibold text-gray-700 mb-2">
+      <div className="mb-6 max-w-xl mx-auto">
+        <label className="block text-base sm:text-lg font-semibold text-gray-700 mb-2">
           Select Student:
         </label>
         {Array.isArray(children) && children.length > 0 ? (
           <select
-             className="select w-full max-w-md bg-gradient-to-r from-blue-500 to-green-400 text-white border-none focus:outline-none focus:ring-2 focus:ring-green-300"
+            className="select w-full bg-gradient-to-r from-blue-500 to-green-400 text-white border-none focus:outline-none focus:ring-2 focus:ring-green-300"
             value={selectedStudent}
             onChange={(e) => setSelectedStudent(e.target.value)}
           >
@@ -87,9 +87,7 @@ export default function ShowResult() {
             ))}
           </select>
         ) : (
-          <div className="alert alert-warning max-w-md">
-            No student list available.
-          </div>
+          <div className="alert alert-warning">No student list available.</div>
         )}
       </div>
 
@@ -102,26 +100,25 @@ export default function ShowResult() {
 
       {/* Error Message */}
       {errorMsg && (
-        <div className="alert alert-error shadow-lg max-w-lg mx-auto">
-          <div>
-            <span>{errorMsg}</span>
-          </div>
+        <div className="alert alert-error shadow-lg max-w-xl mx-auto">
+          <span>{errorMsg}</span>
         </div>
       )}
 
       {!selectedStudent && (
-        <div className="alert alert-info max-w-lg mx-auto">
+        <div className="alert alert-info shadow max-w-xl mx-auto">
           <span>Please select a student to view their results.</span>
         </div>
       )}
 
       {!loading && selectedStudent && subjects.length === 0 && (
-        <div className="alert alert-warning shadow-lg max-w-lg mx-auto">
+        <div className="alert alert-warning shadow max-w-xl mx-auto">
           <span>No subjects found for this student.</span>
         </div>
       )}
+
       {!loading && selectedStudent && results.length === 0 && (
-        <div className="alert alert-info shadow-lg max-w-lg mx-auto">
+        <div className="alert alert-info shadow max-w-xl mx-auto">
           <span>No results uploaded yet for this student.</span>
         </div>
       )}
@@ -141,24 +138,24 @@ export default function ShowResult() {
           return (
             <div
               key={exam._id}
-              className="card bg-gradient-to-br from-indigo-800 via-purple-800 to-blue-800 text-white shadow-lg border border-indigo-700"
+              className="card bg-gradient-to-br from-indigo-800 via-purple-800 to-blue-800 text-white shadow-lg border border-indigo-700 max-w-4xl mx-auto"
             >
               <div className="card-body">
-                <h2 className="card-title text-xl text-yellow-300">
+                <h2 className="card-title text-lg sm:text-xl text-yellow-300">
                   {exam.name}
                 </h2>
 
                 {missingSubjects.length > 0 && (
                   <div className="alert bg-yellow-400 text-black mt-4">
                     <span>
-                      Marks not uploaded for: {" "}
+                      Marks not uploaded for:{" "}
                       {missingSubjects.map((s) => s.name).join(", ")}
                     </span>
                   </div>
                 )}
 
                 <div className="overflow-x-auto mt-4">
-                  <table className="table w-full text-white">
+                  <table className="table w-full text-white text-sm sm:text-base">
                     <thead className="bg-blue-600 text-white">
                       <tr>
                         <th>Subject</th>
