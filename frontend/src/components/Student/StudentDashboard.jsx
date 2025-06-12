@@ -94,8 +94,7 @@ export default function StudentDashboard() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 bg-gradient-to-br from-pink-50 to-purple-50 p-4 sm:p-6 md:ml-64 overflow-auto">
-        {renderContent()}
+      <main className="flex-1 bg-gradient-to-br from-pink-50 to-purple-50 p-4 sm:p-6 overflow-auto">  {renderContent()}
       </main>
 
       {/* Logout Modal */}

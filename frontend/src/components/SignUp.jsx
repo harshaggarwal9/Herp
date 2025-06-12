@@ -21,12 +21,14 @@ function SignUp() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-base-200 px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black px-4 sm:px-6 lg:px-8">
+
       <form
         onSubmit={handleSubmit}
-        className="card w-full max-w-md shadow-xl bg-base-100 p-6 sm:p-8 space-y-5 rounded-lg"
+       className="card w-full max-w-md sm:max-w-lg shadow-2xl bg-base-100 p-6 sm:p-10 space-y-6 sm:space-y-8 rounded-xl ring-1 ring-gray-800"
       >
-        <h2 className="text-3xl sm:text-4xl font-bold text-center text-primary mb-2">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-primary drop-shadow-md mb-4">
+
           Sign Up
         </h2>
 

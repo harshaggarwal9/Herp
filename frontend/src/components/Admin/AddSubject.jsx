@@ -45,7 +45,7 @@ export default function CreateSubject() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-8 bg-base-200">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-8">
       <div className="w-full max-w-xl bg-base-100 p-6 sm:p-8 shadow-lg rounded-2xl">
         <h2 className="text-2xl font-bold mb-4 text-center">Create New Subject</h2>
 
