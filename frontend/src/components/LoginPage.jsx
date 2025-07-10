@@ -36,7 +36,8 @@ const LoginPage = () => {
 
       >
        <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-primary drop-shadow-md mb-4">
-          Login
+          Login to
+           Herp
         </h2>
 
         <div className="form-control">
@@ -46,7 +47,7 @@ const LoginPage = () => {
           <input
             type="email"
             id="email"
-            placeholder="you@example.com"
+            placeholder=""
             className="input input-bordered w-full"
             required
             autoComplete="on"
@@ -62,7 +63,7 @@ const LoginPage = () => {
           <input
             type="password"
             id="password"
-            placeholder="••••••••"
+            placeholder=""
             className="input input-bordered w-full"
             required
             autoComplete="on"

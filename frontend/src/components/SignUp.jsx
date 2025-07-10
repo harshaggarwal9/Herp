@@ -27,7 +27,7 @@ function SignUp() {
         className="card w-full max-w-md shadow-xl bg-base-100 p-6 sm:p-8 space-y-5 rounded-lg"
       >
         <h2 className="text-3xl sm:text-4xl font-bold text-center text-primary mb-2">
-          Sign Up
+          Sign Up to Herp
         </h2>
 
         <div className="form-control">
@@ -37,7 +37,7 @@ function SignUp() {
           <input
             type="text"
             id="name"
-            placeholder="Your full name"
+            placeholder=""
             className="input input-bordered w-full text-sm"
             required
             value={name}
@@ -52,7 +52,7 @@ function SignUp() {
           <input
             type="email"
             id="email"
-            placeholder="you@example.com"
+            placeholder=""
             className="input input-bordered w-full text-sm"
             required
             value={email}
@@ -67,7 +67,7 @@ function SignUp() {
           <input
             type="password"
             id="password"
-            placeholder="••••••••"
+            placeholder=""
             className="input input-bordered w-full text-sm"
             required
             value={password}
